@@ -195,7 +195,7 @@ body.stage-open{overflow:hidden;overscroll-behavior:none}
   .stage-top::-webkit-scrollbar{display:none}
   .stage-top>*{flex:none}
   .stage-title{display:none}
-  .stage.running #bgBtn,.stage.running #soundBtn,.stage.running #closeStage,.stage.running #fsBtn{display:none}
+  .stage.running #bgBtn,.stage.running #soundBtn,.stage.running #musicBtn,.stage.running #closeStage,.stage.running #fsBtn{display:none}
   .sbtn{padding:8px 11px}
   .hud{top:calc(54px + env(safe-area-inset-top,0px));gap:6px 16px}
   .hud .val{font-size:24px}
@@ -285,6 +285,7 @@ body.stage-open{overflow:hidden;overscroll-behavior:none}
     <button class="sbtn" id="bgBtn" type="button" aria-pressed="false">Фон: светлый</button>
     <button class="sbtn" id="blindsBtn" type="button" aria-pressed="true">Жалюзи</button>
     <button class="sbtn" id="soundBtn" type="button" aria-pressed="true">Звук: вкл</button>
+    <button class="sbtn" id="musicBtn" type="button">Музыка: Авто</button>
     <button class="sbtn" id="fsBtn" type="button" hidden>На весь экран</button>
     <button class="sbtn" id="closeStage" type="button">Закрыть</button>
   </div>
@@ -348,8 +349,9 @@ body.stage-open{overflow:hidden;overscroll-behavior:none}
         <button class="sbtn" id="restartBtn" type="button">Заново</button>
         <button class="sbtn" id="quitBtn" type="button">На сцену</button>
         <button class="sbtn" id="pSound" type="button">Звук: вкл</button>
+        <button class="sbtn" id="pMusic" type="button">Музыка: Авто</button>
       </div>
-      <p class="ars-note" style="margin:14px 0 0">Enter — продолжить · Esc — пауза</p>
+      <p class="ars-note" style="margin:14px 0 0">Собранные шляпы уйдут в кошелёк и при выходе · Enter — продолжить · Esc — пауза</p>
     </div>
   </div>
   <aside class="drawer" id="shop" hidden aria-labelledby="shopTitle">
@@ -511,6 +513,7 @@ body.stage-open{overflow:hidden;overscroll-behavior:none}
       }}
     };
     const ORDER=['auto','moon','chase','rain','off'], NAMES={auto:'Авто',moon:'Синяя луна',chase:'Погоня',rain:'Полночный дождь',off:'выкл'};
+    try{const v=localStorage.getItem('noir-music');if(ORDER.includes(v))pref=v}catch(e){}
     const musicVol=()=>pref==='off'?0:(curMode==='run'?.42:.34);
     function applyTrack(){
       const k=pref==='auto'?(curMode==='run'?'chase':'moon'):(pref==='off'?cur:pref);
@@ -621,6 +624,9 @@ body.stage-open{overflow:hidden;overscroll-behavior:none}
   $('openStage').onclick=open; $('openStage2').onclick=open; $('closeStage').onclick=close;
   function updSound(){['soundBtn','pSound'].forEach(id=>{$(id).textContent=SND.on?'Звук: вкл':'Звук: выкл';$(id).setAttribute('aria-pressed',SND.on)})}
   $('pSound').onclick=()=>{SND.setOn(!SND.on);updSound()};
+  function updMusic(){['musicBtn','pMusic'].forEach(id=>$(id).textContent='Музыка: '+SND.musicName)}
+  $('musicBtn').onclick=()=>{SND.cycleMusic();SND.start();updMusic()};
+  $('pMusic').onclick=()=>{SND.cycleMusic();updMusic()}; updMusic();
   const TOUCH=matchMedia('(pointer:coarse)').matches||('ontouchstart' in window);
   if(TOUCH)hint.textContent='Тап — трос · зажми и веди — прицел · «Старт» — погоня';
   const fsEl=document.fullscreenElement!==undefined?'std':(document.webkitFullscreenElement!==undefined?'wk':'');
@@ -1256,7 +1262,7 @@ body.stage-open{overflow:hidden;overscroll-behavior:none}
       stageG.visible=false; runG.visible=true; cable.visible=hook.visible=false; reticle.hidden=true; hint.hidden=true;
       clearRun();
       Object.assign(run,{t:0,z:0,lane:0,x:0,y:0,vy:0,slideT:0,speed:12,dist:0,score:0,hats:0,phase:0,nextRow:-40,lastRow:-20,over:false,overT:0,
-        lives:3+U('life'),level:1,lv:LV(1),levelT:0,gateDone:false,invulT:0,slowT:0,nextBoost:110,abilCD:0,abilT:0,trail:0,unlocks:[],won:false,levelHit:false,distMark:0});
+        lives:3+U('life'),level:1,lv:LV(1),levelT:0,gateDone:false,invulT:0,slowT:0,nextBoost:110,abilCD:0,abilT:0,trail:0,unlocks:[],won:false,levelHit:false,distMark:0,banked:false});
       curTheme=0;
       run.levelEndZ=-run.lv.len; for(const k in run.boosts)run.boosts[k]=0; if(U('vest'))run.boosts.shield=boostDur('shield');
       closeDrawers();
@@ -1271,6 +1277,7 @@ body.stage-open{overflow:hidden;overscroll-behavior:none}
     }
     function stopRun(){
       if(mode!=='run')return;
+      bankRun();
       if(jetPack.parent)jetPack.parent.remove(jetPack); stageEl.classList.remove('slow'); clearZones();
       run.paused=false; clearTimeout(cdTimer); $('pause').hidden=true; SND.start(); SND.mode('stage'); closeDrawers();
       mode='stage'; stageEl.classList.remove('running'); clearRun();
@@ -1304,7 +1311,7 @@ body.stage-open{overflow:hidden;overscroll-behavior:none}
       tick();
     }
     $('startBtn').onclick=()=>{if(mode!=='run')startRun();else if(run.over)stopRun();else if(!$('pause').hidden)resumeRun();else pauseRun()};
-    $('resumeBtn').onclick=resumeRun; $('restartBtn').onclick=()=>{$('pause').hidden=true;startRun()}; $('quitBtn').onclick=stopRun;
+    $('resumeBtn').onclick=resumeRun; $('restartBtn').onclick=()=>{$('pause').hidden=true;bankRun();startRun()}; $('quitBtn').onclick=stopRun;
     document.addEventListener('visibilitychange',()=>{
       if(stageEl.hidden)return;
       if(document.hidden){pauseRun();SND.suspend()}
@@ -1329,14 +1336,21 @@ body.stage-open{overflow:hidden;overscroll-behavior:none}
     function gameOver(){
       run.won=false; shake=.35; sfx('over'); say('over',true); fx(ringGeo,inkHex,new V3(run.x,1.1,run.z-.4),false,.1,1.6,.5,.8); report(false);
     }
+    // credit the run's hats to the wallet and save the record (once per run)
+    function bankRun(){
+      const score=Math.floor(run.score), isNew=score>best;
+      if(run.banked)return {score,isNew:false,gain:0};
+      run.banked=true;
+      if(isNew){best=score;try{localStorage.setItem('noir-runner-best',best)}catch(e){}}
+      questEv('score',score); const gain=Math.round(run.hats*(1+.15*U('purse'))); save.wallet+=gain; persist(); updWallet(); updQuestBadge();
+      return {score,isNew,gain};
+    }
     function report(won){
       endAbility(); run.over=true; run.overT=0; shieldMesh.visible=false; $('startBtn').textContent='На сцену';
       $('overTitle').textContent=won?'Дело раскрыто':'Погоня окончена';
-      const score=Math.floor(run.score), isNew=score>best;
-      if(isNew){best=score;try{localStorage.setItem('noir-runner-best',best)}catch(e){}}
+      const {score,isNew,gain}=bankRun();
       $('oScore').textContent=score; $('oLevel').textContent=run.level; $('oHats').textContent=run.hats; $('oDist').textContent=Math.floor(run.dist); $('oBest').textContent=best;
       $('newRec').hidden=!isNew; $('hBest').textContent=best;
-      questEv('score',score); const gain=Math.round(run.hats*(1+.15*U('purse'))); save.wallet+=gain; persist(); updWallet();
       $('oWallet').textContent='+'+gain+' · всего '+save.wallet; updQuestBadge();
       $('oUnlock').hidden=!run.unlocks.length; $('oUnlock').textContent='Открыто: '+run.unlocks.join(', ')+'. Выбери в арсенале.';
       const showOver=()=>{if(mode==='run'&&run.over){$('over').hidden=false;$('againBtn').focus()}};
@@ -1383,7 +1397,9 @@ body.stage-open{overflow:hidden;overscroll-behavior:none}
     function endAbility(){if(stageEl.classList.contains('phasing'))setGhost(false);stageEl.classList.remove('smoke');cable.visible=hook.visible=false;run.abilT=0}
     function useAbility(){
       if(mode!=='run'||run.over||run.paused||run.abilCD>0||run.abilT>0)return;
-      const ab=abil(); run.abilCD=abCD(ab); run.abilT=ab.dur; questEv('abil',1); sfx(ab.key); say(ab.key,true);
+      const ab=abil();
+      if(run.boosts.jet>0&&(ab.key==='grapple'||ab.key==='glide')){banner(ab.name,'не во время ракетного ранца');return}
+      run.abilCD=abCD(ab); run.abilT=ab.dur; questEv('abil',1); sfx(ab.key); say(ab.key,true);
       if(ab.key==='grapple'){run.slideT=0;run.vy=0;run.grapY0=run.y;banner(ab.name,ab.desc)}
       else if(ab.key==='raid'){let n=0;
         for(const o of run.obs)if(!o.dead&&o.z<run.z+2&&o.z>run.z-45){smash(o);n++}
@@ -1663,7 +1679,7 @@ body.stage-open{overflow:hidden;overscroll-behavior:none}
             else {sfx('boost');if(Math.random()<.5)say('boost');questEv('boost',1);
               if(it.type==='heart'){sfx('heal');if(run.lives<MAXL){run.lives++;renderLives();banner('Аптечка','+1 жизнь')}else{run.score+=150*mult();banner('Аптечка','+150 очков')}}
               else{B[it.type]=boostDur(it.type);banner(BOOSTS[it.type].name,'на '+Math.round(boostDur(it.type))+' с');
-                if(it.type==='jet'){run.jetZ=run.z-8;run.jetLane=run.lane;sfx('jet')}}fx(ringGeo,0xd9c9a3,it.mesh.position,false,.2,1.6,.45,.9)}
+                if(it.type==='jet'){run.jetZ=run.z-8;run.jetLane=run.lane;sfx('jet');if(grap||glide)endAbility()}}fx(ringGeo,0xd9c9a3,it.mesh.position,false,.2,1.6,.45,.9)}
             runG.remove(it.mesh);run.items.splice(i,1)}
         }
         const ps=Math.floor(run.phase/Math.PI); run.phase+=dt*run.speed*.62;
