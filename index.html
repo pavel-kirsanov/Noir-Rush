@@ -1,5 +1,14 @@
 <!doctype html><html lang="uk"><head><meta charset="utf-8"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
 <title>Тінь над містом</title>
+<meta name="description" content="Нуарний 3D-ранер: детектив у плащі й капелюсі біжить нічним містом.">
+<meta name="theme-color" content="#121315">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Тінь">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=PT+Serif:ital,wght@0,400;0,700;1,400&family=PT+Mono&display=swap">
 <style>
@@ -236,6 +245,7 @@ body.stage-open{overflow:hidden;overscroll-behavior:none}
       <a href="#delo" id="openArs">Арсенал</a>
       <a href="#delo" id="openShopNav">Крамниця</a>
       <a href="#delo" id="openQuestNav">Завдання</a>
+      <a href="#" id="installBtn" hidden>Встановити</a>
       <button class="btn" id="openStage" type="button">Сцена</button>
     </nav>
   </div>
@@ -271,6 +281,7 @@ body.stage-open{overflow:hidden;overscroll-behavior:none}
           <dt>Бустери</dt><dd>ривок, бронежилет, магніт, гонорар ×2, реактивний ранець, пружини, годинник, аптечка</dd>
           <dt>Крамниця</dt><dd>зібрані капелюхи йдуть у гаманець: нові капелюхи й покращення</dd>
           <dt>Завдання</dt><dd>три нових щодня, нагорода капелюхами</dd>
+          <dt class="inst">Як застосунок</dt><dd class="inst">iPhone: «Поділитися» → «На початковий екран». Android: «Встановити» вгорі або меню браузера → «Додати на головний екран»</dd>
         </dl>
         <div class="stamp">Капелюх = 25 очок · метр = 1 очко · рівень = 100 × номер</div>
       </aside>
@@ -631,6 +642,16 @@ body.stage-open{overflow:hidden;overscroll-behavior:none}
   function close(){ if(api) api.stopRun(); exitFs(); document.body.classList.remove('stage-open'); stageEl.hidden=true; running=false; cancelAnimationFrame(raf); SND.suspend(); }
   function loop(){ if(!running) return; api.frame(); raf=requestAnimationFrame(loop); }
   $('openStage').onclick=open; $('openStage2').onclick=open; $('closeStage').onclick=close;
+  // ===== installed app (home screen) =====
+  const STANDALONE=matchMedia('(display-mode: fullscreen),(display-mode: standalone)').matches||navigator.standalone===true;
+  if(STANDALONE)document.querySelectorAll('.inst').forEach(e=>e.hidden=true);
+  let installEv=null;
+  addEventListener('beforeinstallprompt',e=>{e.preventDefault();installEv=e;$('installBtn').hidden=false});
+  addEventListener('appinstalled',()=>{installEv=null;$('installBtn').hidden=true});
+  $('installBtn').onclick=async e=>{e.preventDefault();if(!installEv)return;installEv.prompt();
+    try{await installEv.userChoice}catch(_){};installEv=null;$('installBtn').hidden=true};
+  if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))
+    addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
   function updSound(){['soundBtn','pSound'].forEach(id=>{$(id).textContent=SND.on?'Звук: увімк':'Звук: вимк';$(id).setAttribute('aria-pressed',SND.on)})}
   $('pSound').onclick=()=>{SND.setOn(!SND.on);updSound()};
   function updMusic(){['musicBtn','pMusic'].forEach(id=>$(id).textContent='Музика: '+SND.musicName)}
@@ -641,7 +662,7 @@ body.stage-open{overflow:hidden;overscroll-behavior:none}
   const fsEl=document.fullscreenElement!==undefined?'std':(document.webkitFullscreenElement!==undefined?'wk':'');
   const isFs=()=>!!(document.fullscreenElement||document.webkitFullscreenElement);
   function exitFs(){try{if(isFs())(document.exitFullscreen||document.webkitExitFullscreen).call(document)}catch(e){}}
-  if(TOUCH&&fsEl&&(document.fullscreenEnabled||document.webkitFullscreenEnabled)){
+  if(TOUCH&&!STANDALONE&&fsEl&&(document.fullscreenEnabled||document.webkitFullscreenEnabled)){
     $('fsBtn').hidden=false;
     $('fsBtn').onclick=()=>{try{if(isFs()){exitFs();return}const r=(stageEl.requestFullscreen||stageEl.webkitRequestFullscreen).call(stageEl);
       if(r&&r.then)r.then(()=>{try{screen.orientation&&screen.orientation.lock&&screen.orientation.lock('portrait').catch(()=>{})}catch(e){}}).catch(()=>{$('fsBtn').hidden=true})}catch(e){$('fsBtn').hidden=true}};
@@ -650,6 +671,7 @@ body.stage-open{overflow:hidden;overscroll-behavior:none}
   }
   addEventListener('orientationchange',()=>{if(api&&!stageEl.hidden)setTimeout(()=>api.resize(),250)});
   $('soundBtn').onclick=()=>{SND.setOn(!SND.on);SND.start();updSound()}; updSound();
+  if(STANDALONE)open();
   $('openShopNav').onclick=e=>{e.preventDefault();open();if(api)api.openShop()};
   $('openQuestNav').onclick=e=>{e.preventDefault();open();if(api)api.openQuests()};
   $('openArs').onclick=e=>{e.preventDefault();open();if(api)api.openArsenal()};
