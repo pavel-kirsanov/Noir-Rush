@@ -159,6 +159,7 @@ h1{font-family:var(--display);font-weight:700;text-transform:uppercase;font-size
 .wallet{display:inline-flex;align-items:center;gap:6px;font-family:var(--display);font-weight:700;font-size:16px;font-variant-numeric:tabular-nums;
   padding:5px 10px;border:1px solid var(--chipb);background:var(--chip)}
 .wallet svg,.price svg{width:22px;height:15px;fill:currentColor}
+.drawer,.over-card{box-sizing:border-box}
 .drawer{position:absolute;z-index:5;top:0;right:0;bottom:0;width:min(430px,100%);background:var(--stage);color:var(--ink);border-left:1.5px solid var(--ink);
   box-shadow:-12px 0 0 rgba(0,0,0,.18);overflow:auto;padding-top:calc(18px + env(safe-area-inset-top,0px));padding-bottom:calc(18px + env(safe-area-inset-bottom,0px));
   padding-left:22px;padding-right:max(22px,env(safe-area-inset-right,0px))}
@@ -194,7 +195,7 @@ body.stage-open{overflow:hidden;overscroll-behavior:none}
   .stage-top::-webkit-scrollbar{display:none}
   .stage-top>*{flex:none}
   .stage-title{display:none}
-  .stage.running #bgBtn,.stage.running #soundBtn,.stage.running #closeStage,.stage.running #fsBtn{display:none}
+  .stage.running #bgBtn,.stage.running #soundBtn,.stage.running #musicBtn,.stage.running #closeStage,.stage.running #fsBtn{display:none}
   .sbtn{padding:8px 11px}
   .hud{top:calc(54px + env(safe-area-inset-top,0px));gap:6px 16px}
   .hud .val{font-size:24px}
@@ -284,6 +285,7 @@ body.stage-open{overflow:hidden;overscroll-behavior:none}
     <button class="sbtn" id="bgBtn" type="button" aria-pressed="false">Фон: светлый</button>
     <button class="sbtn" id="blindsBtn" type="button" aria-pressed="true">Жалюзи</button>
     <button class="sbtn" id="soundBtn" type="button" aria-pressed="true">Звук: вкл</button>
+    <button class="sbtn" id="musicBtn" type="button">Музыка: Авто</button>
     <button class="sbtn" id="fsBtn" type="button" hidden>На весь экран</button>
     <button class="sbtn" id="closeStage" type="button">Закрыть</button>
   </div>
@@ -347,8 +349,9 @@ body.stage-open{overflow:hidden;overscroll-behavior:none}
         <button class="sbtn" id="restartBtn" type="button">Заново</button>
         <button class="sbtn" id="quitBtn" type="button">На сцену</button>
         <button class="sbtn" id="pSound" type="button">Звук: вкл</button>
+        <button class="sbtn" id="pMusic" type="button">Музыка: Авто</button>
       </div>
-      <p class="ars-note" style="margin:14px 0 0">Enter — продолжить · Esc — пауза</p>
+      <p class="ars-note" style="margin:14px 0 0">Собранные шляпы уйдут в кошелёк и при выходе · Enter — продолжить · Esc — пауза</p>
     </div>
   </div>
   <aside class="drawer" id="shop" hidden aria-labelledby="shopTitle">
@@ -510,6 +513,7 @@ body.stage-open{overflow:hidden;overscroll-behavior:none}
       }}
     };
     const ORDER=['auto','moon','chase','rain','off'], NAMES={auto:'Авто',moon:'Синяя луна',chase:'Погоня',rain:'Полночный дождь',off:'выкл'};
+    try{const v=localStorage.getItem('noir-music');if(ORDER.includes(v))pref=v}catch(e){}
     const musicVol=()=>pref==='off'?0:(curMode==='run'?.42:.34);
     function applyTrack(){
       const k=pref==='auto'?(curMode==='run'?'chase':'moon'):(pref==='off'?cur:pref);
@@ -519,6 +523,8 @@ body.stage-open{overflow:hidden;overscroll-behavior:none}
     }
     function schedule(){
       const tr=TRACKS[cur];
+      // after timer throttling (background tab) don't fire all the missed notes at once
+      if(nextT<ctx.currentTime)nextT=ctx.currentTime+.05;
       while(nextT<ctx.currentTime+.5){
         const S=60/tr.bpm/2/(cur==='chase'?tempoMul:1);
         if(pref!=='off')tr.play(step%tr.steps,nextT,loop,S);
@@ -609,6 +615,7 @@ body.stage-open{overflow:hidden;overscroll-behavior:none}
   function open(){
     stageEl.hidden=false; document.body.classList.add('stage-open');
     if(!inited){ inited=true; try{ api=init(); }catch(e){ console.error(e); stageEl.insertAdjacentHTML('beforeend','<div class="err">WebGL недоступен в этом браузере.</div>'); return; } }
+    if(!api) return;
     api.resize(); running=true; api.clock.getDelta(); loop();
     SND.start(); SND.mode('stage'); say('stage',true);
   }
@@ -617,6 +624,9 @@ body.stage-open{overflow:hidden;overscroll-behavior:none}
   $('openStage').onclick=open; $('openStage2').onclick=open; $('closeStage').onclick=close;
   function updSound(){['soundBtn','pSound'].forEach(id=>{$(id).textContent=SND.on?'Звук: вкл':'Звук: выкл';$(id).setAttribute('aria-pressed',SND.on)})}
   $('pSound').onclick=()=>{SND.setOn(!SND.on);updSound()};
+  function updMusic(){['musicBtn','pMusic'].forEach(id=>$(id).textContent='Музыка: '+SND.musicName)}
+  $('musicBtn').onclick=()=>{SND.cycleMusic();SND.start();updMusic()};
+  $('pMusic').onclick=()=>{SND.cycleMusic();updMusic()}; updMusic();
   const TOUCH=matchMedia('(pointer:coarse)').matches||('ontouchstart' in window);
   if(TOUCH)hint.textContent='Тап — трос · зажми и веди — прицел · «Старт» — погоня';
   const fsEl=document.fullscreenElement!==undefined?'std':(document.webkitFullscreenElement!==undefined?'wk':'');
@@ -895,7 +905,7 @@ body.stage-open{overflow:hidden;overscroll-behavior:none}
     function setCharacter(i){
       if(typeof jetPack!=='undefined'&&jetPack.parent)jetPack.parent.remove(jetPack);
       charIdx=i; scene.remove(ch.root);
-      ch.root.traverse(o=>{if(o.isMesh){o.geometry.dispose()}}); Object.values(ch.mat).forEach(m=>m.dispose());
+      ch.root.traverse(o=>{if(o.isMesh){o.geometry.dispose()}}); Object.values(ch.mat).forEach(m=>m.dispose()); ch.contact.material.dispose();
       ch=makeCharacter(PALETTES[i],save.hat); scene.add(ch.root);
       const label='Персонаж: '+PALETTES[i].name; $('charBtn').textContent=label; $('charBtn2').textContent=label; $('charBtn3').textContent=label; updAbilLabel(); if(!$('arsenal').hidden)renderArsenal();
       applyColors();
@@ -1190,7 +1200,7 @@ body.stage-open{overflow:hidden;overscroll-behavior:none}
       g.userData={tex,bm}; return g;
     }
     const gates=[];
-    function dropGate(g){runG.remove(g);g.userData.tex.dispose();g.userData.bm.dispose();g.traverse(o=>{if(o.isMesh&&o.material!==A.post)o.geometry.dispose()})}
+    function dropGate(g){runG.remove(g);g.userData.tex.dispose();g.userData.bm.dispose();g.traverse(o=>{if(o.isMesh)o.geometry.dispose()})}
 
     // difficulty per level
     const MAXLV=15;
@@ -1252,7 +1262,7 @@ body.stage-open{overflow:hidden;overscroll-behavior:none}
       stageG.visible=false; runG.visible=true; cable.visible=hook.visible=false; reticle.hidden=true; hint.hidden=true;
       clearRun();
       Object.assign(run,{t:0,z:0,lane:0,x:0,y:0,vy:0,slideT:0,speed:12,dist:0,score:0,hats:0,phase:0,nextRow:-40,lastRow:-20,over:false,overT:0,
-        lives:3+U('life'),level:1,lv:LV(1),levelT:0,gateDone:false,invulT:0,slowT:0,nextBoost:110,abilCD:0,abilT:0,trail:0,unlocks:[],won:false,levelHit:false,distMark:0});
+        lives:3+U('life'),level:1,lv:LV(1),levelT:0,gateDone:false,invulT:0,slowT:0,nextBoost:110,abilCD:0,abilT:0,trail:0,unlocks:[],won:false,levelHit:false,distMark:0,banked:false});
       curTheme=0;
       run.levelEndZ=-run.lv.len; for(const k in run.boosts)run.boosts[k]=0; if(U('vest'))run.boosts.shield=boostDur('shield');
       closeDrawers();
@@ -1267,6 +1277,7 @@ body.stage-open{overflow:hidden;overscroll-behavior:none}
     }
     function stopRun(){
       if(mode!=='run')return;
+      bankRun();
       if(jetPack.parent)jetPack.parent.remove(jetPack); stageEl.classList.remove('slow'); clearZones();
       run.paused=false; clearTimeout(cdTimer); $('pause').hidden=true; SND.start(); SND.mode('stage'); closeDrawers();
       mode='stage'; stageEl.classList.remove('running'); clearRun();
@@ -1300,8 +1311,12 @@ body.stage-open{overflow:hidden;overscroll-behavior:none}
       tick();
     }
     $('startBtn').onclick=()=>{if(mode!=='run')startRun();else if(run.over)stopRun();else if(!$('pause').hidden)resumeRun();else pauseRun()};
-    $('resumeBtn').onclick=resumeRun; $('restartBtn').onclick=()=>{$('pause').hidden=true;startRun()}; $('quitBtn').onclick=stopRun;
-    document.addEventListener('visibilitychange',()=>{if(document.hidden&&!stageEl.hidden)pauseRun()});
+    $('resumeBtn').onclick=resumeRun; $('restartBtn').onclick=()=>{$('pause').hidden=true;bankRun();startRun()}; $('quitBtn').onclick=stopRun;
+    document.addEventListener('visibilitychange',()=>{
+      if(stageEl.hidden)return;
+      if(document.hidden){pauseRun();SND.suspend()}
+      else if(mode!=='run'||run.over)SND.start();
+    });
     $('againBtn').onclick=startRun; $('exitRunBtn').onclick=stopRun;
 
     function smash(o){sfx('crash');o.dead=true;runG.remove(o.mesh);fx(ringGeo,inkHex,a.set(o.x,1,o.z+o.hz),false,.1,1.2,.4,.7);shake=Math.max(shake,.12)}
@@ -1321,14 +1336,21 @@ body.stage-open{overflow:hidden;overscroll-behavior:none}
     function gameOver(){
       run.won=false; shake=.35; sfx('over'); say('over',true); fx(ringGeo,inkHex,new V3(run.x,1.1,run.z-.4),false,.1,1.6,.5,.8); report(false);
     }
-    function report(won){
-      endAbility(); run.over=true; run.overT=0; shieldMesh.visible=false;
-      $('overTitle').textContent=won?'Дело раскрыто':'Погоня окончена';
+    // credit the run's hats to the wallet and save the record (once per run)
+    function bankRun(){
       const score=Math.floor(run.score), isNew=score>best;
+      if(run.banked)return {score,isNew:false,gain:0};
+      run.banked=true;
       if(isNew){best=score;try{localStorage.setItem('noir-runner-best',best)}catch(e){}}
+      questEv('score',score); const gain=Math.round(run.hats*(1+.15*U('purse'))); save.wallet+=gain; persist(); updWallet(); updQuestBadge();
+      return {score,isNew,gain};
+    }
+    function report(won){
+      endAbility(); run.over=true; run.overT=0; shieldMesh.visible=false; $('startBtn').textContent='На сцену';
+      $('overTitle').textContent=won?'Дело раскрыто':'Погоня окончена';
+      const {score,isNew,gain}=bankRun();
       $('oScore').textContent=score; $('oLevel').textContent=run.level; $('oHats').textContent=run.hats; $('oDist').textContent=Math.floor(run.dist); $('oBest').textContent=best;
       $('newRec').hidden=!isNew; $('hBest').textContent=best;
-      questEv('score',score); const gain=Math.round(run.hats*(1+.15*U('purse'))); save.wallet+=gain; persist(); updWallet();
       $('oWallet').textContent='+'+gain+' · всего '+save.wallet; updQuestBadge();
       $('oUnlock').hidden=!run.unlocks.length; $('oUnlock').textContent='Открыто: '+run.unlocks.join(', ')+'. Выбери в арсенале.';
       const showOver=()=>{if(mode==='run'&&run.over){$('over').hidden=false;$('againBtn').focus()}};
@@ -1375,7 +1397,9 @@ body.stage-open{overflow:hidden;overscroll-behavior:none}
     function endAbility(){if(stageEl.classList.contains('phasing'))setGhost(false);stageEl.classList.remove('smoke');cable.visible=hook.visible=false;run.abilT=0}
     function useAbility(){
       if(mode!=='run'||run.over||run.paused||run.abilCD>0||run.abilT>0)return;
-      const ab=abil(); run.abilCD=abCD(ab); run.abilT=ab.dur; questEv('abil',1); sfx(ab.key); say(ab.key,true);
+      const ab=abil();
+      if(run.boosts.jet>0&&(ab.key==='grapple'||ab.key==='glide')){banner(ab.name,'не во время ракетного ранца');return}
+      run.abilCD=abCD(ab); run.abilT=ab.dur; questEv('abil',1); sfx(ab.key); say(ab.key,true);
       if(ab.key==='grapple'){run.slideT=0;run.vy=0;run.grapY0=run.y;banner(ab.name,ab.desc)}
       else if(ab.key==='raid'){let n=0;
         for(const o of run.obs)if(!o.dead&&o.z<run.z+2&&o.z>run.z-45){smash(o);n++}
@@ -1437,11 +1461,13 @@ body.stage-open{overflow:hidden;overscroll-behavior:none}
         else if(mode==='run'){if(run.over)stopRun();else if(!$('pause').hidden)resumeRun();else pauseRun()}else close();return}
       if(mode!=='run')return;
       if((e.key==='p'||e.key==='P'||e.key==='з'||e.key==='З')&&!run.over){$('pause').hidden?pauseRun():resumeRun();return}
-      if(!$('pause').hidden){if(e.key==='Enter'||e.key===' '){e.preventDefault();resumeRun()}return}
+      // a focused button handles Enter/Space itself (e.g. "Заново", "На сцену")
+      const onBtn=document.activeElement&&document.activeElement.tagName==='BUTTON';
+      if(!$('pause').hidden){if(!onBtn&&(e.key==='Enter'||e.key===' ')){e.preventDefault();resumeRun()}return}
       const k=e.key, map={ArrowLeft:'left',a:'left',A:'left','ф':'left',ArrowRight:'right',d:'right',D:'right','в':'right',
         ArrowUp:'jump',w:'jump',W:'jump',' ':'ability','ц':'jump',ArrowDown:'slide',s:'slide',S:'slide','ы':'slide'};
       if(map[k]){e.preventDefault();if(!e.repeat)act(map[k])}
-      else if(k==='Enter'&&run.over&&!$('over').hidden){e.preventDefault();startRun()}
+      else if(k==='Enter'&&run.over&&!$('over').hidden&&!onBtn){e.preventDefault();startRun()}
     });
 
     function resize(){
@@ -1611,7 +1637,7 @@ body.stage-open{overflow:hidden;overscroll-behavior:none}
         const base=run.lv.base+Math.min(4,run.levelT*.12);
         const target=base*(B.speed>0?1.65:1)*(ram?1.8:1)*(watchOn?.58:1)*(jetOn?1.15:1)*(run.slowT>0?lerp(1,.55,run.slowT/1.2):1);
         run.speed=damp(run.speed,target,3,dt);
-        const dz=run.speed*dt; run.z-=dz; run.dist+=dz; run.score+=dz*mult();
+        const dz=run.speed*dt, z0=run.z; run.z-=dz; run.dist+=dz; run.score+=dz*mult();
         const dm=Math.floor(run.dist/25); if(dm!==run.distMark){run.distMark=dm;questEv('dist',run.dist);questEv('score',run.score)}
         run.x=damp(run.x,run.lane*LANE,15,dt);
         if(jetOn){run.y=damp(run.y,5.2,3.5,dt);run.vy=0;run.slideT=0;
@@ -1638,7 +1664,9 @@ body.stage-open{overflow:hidden;overscroll-behavior:none}
         const sliding=run.slideT>0&&run.y<.35, h=sliding?.85:1.95;
         for(let i=run.obs.length-1;i>=0;i--){const o=run.obs[i];
           if(o.dead||o.z>run.z+12){if(!o.dead)runG.remove(o.mesh);run.obs.splice(i,1);continue}
-          if(!passThru&&Math.abs(o.x-run.x)<o.hx+.3&&Math.abs(o.z-run.z)<o.hz+.28&&run.y<o.y1&&run.y+h>o.y0){hurt(o);if(run.over)break}
+          // swept along z: at high speed / low fps one frame can step over a thin obstacle
+          const dzo=o.hz+.28;
+          if(!passThru&&Math.abs(o.x-run.x)<o.hx+.3&&o.z-dzo<z0&&o.z+dzo>run.z&&run.y<o.y1&&run.y+h>o.y0){hurt(o);if(run.over)break}
         }
         for(let i=run.items.length-1;i>=0;i--){const it=run.items[i];
           if(it.z>run.z+8){runG.remove(it.mesh);run.items.splice(i,1);continue}
@@ -1646,12 +1674,12 @@ body.stage-open{overflow:hidden;overscroll-behavior:none}
             it.x=damp(it.x,run.x,7,dt);it.z=damp(it.z,run.z,4,dt);it.y=damp(it.y,run.y+1,7,dt)}
           it.mesh.rotation.y+=dt*(it.kind==='hat'?3:2.2);
           it.mesh.position.set(it.x,it.y+Math.sin(time*4+it.z)*.06,it.z);
-          if(Math.abs(it.x-run.x)<.7&&Math.abs(it.z-run.z)<.8&&Math.abs(it.y-(run.y+(sliding?.5:1)))<1.15){
+          if(Math.abs(it.x-run.x)<.7&&it.z-.8<z0&&it.z+.8>run.z&&Math.abs(it.y-(run.y+(sliding?.5:1)))<1.15){
             if(it.kind==='hat'){run.hats++;run.score+=25*mult();questEv('hatsRun',run.hats);questEv('hatsDay',1);sfx('hat');if(run.hats%30===0)say('hats');fx(ringGeo,0xd9c9a3,it.mesh.position,false,.1,.6,.3,.9)}
             else {sfx('boost');if(Math.random()<.5)say('boost');questEv('boost',1);
               if(it.type==='heart'){sfx('heal');if(run.lives<MAXL){run.lives++;renderLives();banner('Аптечка','+1 жизнь')}else{run.score+=150*mult();banner('Аптечка','+150 очков')}}
               else{B[it.type]=boostDur(it.type);banner(BOOSTS[it.type].name,'на '+Math.round(boostDur(it.type))+' с');
-                if(it.type==='jet'){run.jetZ=run.z-8;run.jetLane=run.lane;sfx('jet')}}fx(ringGeo,0xd9c9a3,it.mesh.position,false,.2,1.6,.45,.9)}
+                if(it.type==='jet'){run.jetZ=run.z-8;run.jetLane=run.lane;sfx('jet');if(grap||glide)endAbility()}}fx(ringGeo,0xd9c9a3,it.mesh.position,false,.2,1.6,.45,.9)}
             runG.remove(it.mesh);run.items.splice(i,1)}
         }
         const ps=Math.floor(run.phase/Math.PI); run.phase+=dt*run.speed*.62;
