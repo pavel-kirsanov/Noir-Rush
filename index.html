@@ -191,10 +191,12 @@ body.stage-open{overflow:hidden;overscroll-behavior:none}
 .stage{overscroll-behavior:none;-webkit-user-select:none;user-select:none}
 .over-card{max-height:calc(100% - 32px);overflow:auto}
 @media (max-width:760px),(max-height:500px){
-  .stage-top{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding-bottom:8px}
-  .stage-top::-webkit-scrollbar{display:none}
+  /* wrap the toolbar into rows instead of a hidden horizontal scroll */
+  .stage-top{flex-wrap:wrap;gap:6px;padding-bottom:8px}
   .stage-top>*{flex:none}
   .stage-title{display:none}
+  .stage-top .sbtn{font-size:12px;padding:7px 9px}
+  .stage-top .wallet{font-size:14px;padding:4px 8px}
   .stage.running #bgBtn,.stage.running #soundBtn,.stage.running #musicBtn,.stage.running #closeStage,.stage.running #fsBtn{display:none}
   .sbtn{padding:8px 11px}
   .hud{top:calc(54px + env(safe-area-inset-top,0px));gap:6px 16px}
