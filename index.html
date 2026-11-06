@@ -1,5 +1,5 @@
-<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
-<title>Тень над городом</title>
+<!doctype html><html lang="uk"><head><meta charset="utf-8"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
+<title>Тінь над містом</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=PT+Serif:ital,wght@0,400;0,700;1,400&family=PT+Mono&display=swap">
 <style>
@@ -212,6 +212,13 @@ body.stage-open{overflow:hidden;overscroll-behavior:none}
   .hint{display:none}
   .hud-block{padding:5px 8px 6px}
 }
+/* mid-size screens: keep the stage toolbar on one row */
+@media (min-width:761px) and (max-width:1400px) and (min-height:501px){
+  .stage-title{display:none}
+  .stage-top{gap:6px}
+  #startBtn{margin-left:auto}
+  .sbtn{padding:7px 9px}
+}
 @media (max-width:440px){.hud .rec{display:none}}
 @media (max-height:500px){.hud .rec{display:none}.over-card{padding:16px 18px}}
 @media (prefers-reduced-motion:reduce){.grain{animation:none}}
@@ -221,12 +228,12 @@ body.stage-open{overflow:hidden;overscroll-behavior:none}
 <body>
 <header>
   <div class="bar">
-    <div class="brand">Тень <span>/</span> город</div>
-    <nav aria-label="Главное меню">
-      <a href="#delo">Управление</a>
+    <div class="brand">Тінь <span>/</span> місто</div>
+    <nav aria-label="Головне меню">
+      <a href="#delo">Керування</a>
       <a href="#delo" id="openArs">Арсенал</a>
-      <a href="#delo" id="openShopNav">Магазин</a>
-      <a href="#delo" id="openQuestNav">Задания</a>
+      <a href="#delo" id="openShopNav">Крамниця</a>
+      <a href="#delo" id="openQuestNav">Завдання</a>
       <button class="btn" id="openStage" type="button">Сцена</button>
     </nav>
   </div>
@@ -236,99 +243,99 @@ body.stage-open{overflow:hidden;overscroll-behavior:none}
   <section class="hero">
     <div class="hero-in">
       <div>
-        <div class="eyebrow">Дело № 47 · ночная смена · 1937</div>
-        <h1>Тень над городом</h1>
-        <p class="lede">Детектив в плаще и шляпе стоит под лампой: следит за курсором, бросает трос и бьёт так, что дрожит камера. Нажми «Старт», и начнётся погоня по ночным улицам, где у каждого персонажа есть своя способность на пробеле. Три полосы, баррикады, машины и шляпы вместо монет.</p>
+        <div class="eyebrow">Справа № 47 · нічна зміна · 1937</div>
+        <h1>Тінь над містом</h1>
+        <p class="lede">Детектив у плащі й капелюсі стоїть під лампою: стежить за курсором, кидає трос і б’є так, що тремтить камера. Натисни «Старт», і почнеться погоня нічними вулицями, де кожен персонаж має свою здібність на пробілі. Три смуги, барикади, машини й капелюхи замість монет.</p>
         <div class="cta">
-          <button class="btn" id="openStage2" type="button">Открыть сцену</button>
+          <button class="btn" id="openStage2" type="button">Відкрити сцену</button>
         </div>
       </div>
-      <aside class="file" id="delo" aria-label="Управление">
+      <aside class="file" id="delo" aria-label="Керування">
         <h2>Сцена</h2>
         <dl>
-          <dt>Курсор</dt><dd>корпус, голова и глаза следят</dd>
-          <dt>Клик</dt><dd>выстрел тросом в точку</dd>
-          <dt>Зажать</dt><dd>прицел и замах, отпусти — удар</dd>
+          <dt>Курсор</dt><dd>корпус, голова й очі стежать</dd>
+          <dt>Клік</dt><dd>постріл тросом у точку</dd>
+          <dt>Затиснути</dt><dd>приціл і замах, відпусти — удар</dd>
         </dl>
         <h2>Погоня</h2>
         <dl>
-          <dt>← →</dt><dd>сменить полосу</dd>
-          <dt>↑ / W</dt><dd>прыжок через баррикаду</dd>
-          <dt>↓</dt><dd>подкат под знак</dd>
-          <dt>Телефон</dt><dd>свайпы влево, вправо, вверх, вниз; тап — прыжок; круглая кнопка — способность</dd>
-          <dt>Пробел</dt><dd>способность: у каждого героя своя</dd>
-          <dt>15 уровней</dt><dd>каждые 3 — новый район и новая способность, только для героя, которым пройдено</dd>
-          <dt>Жизни</dt><dd>3 на старте, до 5; уровень даёт +1</dd>
-          <dt>Бустеры</dt><dd>рывок, бронежилет, магнит, гонорар ×2, ракетный ранец, пружины, часы, аптечка</dd>
-          <dt>Магазин</dt><dd>собранные шляпы идут в кошелёк: новые шляпы и улучшения</dd>
-          <dt>Задания</dt><dd>три новых каждый день, награда шляпами</dd>
+          <dt>← →</dt><dd>змінити смугу</dd>
+          <dt>↑ / W</dt><dd>стрибок через барикаду</dd>
+          <dt>↓</dt><dd>підкат під знак</dd>
+          <dt>Телефон</dt><dd>свайпи вліво, вправо, вгору, вниз; тап — стрибок; кругла кнопка — здібність</dd>
+          <dt>Пробіл</dt><dd>здібність: у кожного героя своя</dd>
+          <dt>15 рівнів</dt><dd>кожні 3 — новий район і нова здібність, лише для героя, яким пройдено</dd>
+          <dt>Життя</dt><dd>3 на старті, до 5; рівень дає +1</dd>
+          <dt>Бустери</dt><dd>ривок, бронежилет, магніт, гонорар ×2, реактивний ранець, пружини, годинник, аптечка</dd>
+          <dt>Крамниця</dt><dd>зібрані капелюхи йдуть у гаманець: нові капелюхи й покращення</dd>
+          <dt>Завдання</dt><dd>три нових щодня, нагорода капелюхами</dd>
         </dl>
-        <div class="stamp">Шляпа = 25 очков · метр = 1 очко · уровень = 100 × номер</div>
+        <div class="stamp">Капелюх = 25 очок · метр = 1 очко · рівень = 100 × номер</div>
       </aside>
     </div>
   </section>
 </main>
 
 <div class="stage" id="stage" hidden>
-  <canvas id="c" tabindex="-1" aria-label="3D сцена с детективом"></canvas>
+  <canvas id="c" tabindex="-1" aria-label="3D-сцена з детективом"></canvas>
   <div class="grain" id="grain"></div>
   <div class="vignette"></div>
   <div class="reticle" id="reticle" hidden></div>
   <div class="stage-top">
-    <div class="stage-title">Дело № 47</div>
+    <div class="stage-title">Справа № 47</div>
     <button class="sbtn go" id="startBtn" type="button">Старт</button>
     <button class="sbtn" id="charBtn" type="button">Персонаж: Детектив</button>
-    <button class="sbtn" id="abilMenuBtn" type="button">Способность: Трос</button>
-    <button class="sbtn" id="shopBtn" type="button">Магазин</button>
-    <button class="sbtn" id="questBtn" type="button">Задания</button>
-    <span class="wallet" id="walletChip" title="Шляпы в кошельке"><svg viewBox="0 0 30 20" aria-hidden="true"><path d="M8 13 C8 5 10 2 15 2 C20 2 22 5 22 13 Z"/><rect x="8" y="10" width="14" height="2.5" opacity=".5"/><ellipse cx="15" cy="14" rx="14" ry="3.2"/></svg><span class="wv">0</span></span>
-    <button class="sbtn" id="bgBtn" type="button" aria-pressed="false">Фон: светлый</button>
-    <button class="sbtn" id="blindsBtn" type="button" aria-pressed="true">Жалюзи</button>
-    <button class="sbtn" id="soundBtn" type="button" aria-pressed="true">Звук: вкл</button>
-    <button class="sbtn" id="musicBtn" type="button">Музыка: Авто</button>
-    <button class="sbtn" id="fsBtn" type="button" hidden>На весь экран</button>
-    <button class="sbtn" id="closeStage" type="button">Закрыть</button>
+    <button class="sbtn" id="abilMenuBtn" type="button">Здібність: Трос</button>
+    <button class="sbtn" id="shopBtn" type="button">Крамниця</button>
+    <button class="sbtn" id="questBtn" type="button">Завдання</button>
+    <span class="wallet" id="walletChip" title="Капелюхи в гаманці"><svg viewBox="0 0 30 20" aria-hidden="true"><path d="M8 13 C8 5 10 2 15 2 C20 2 22 5 22 13 Z"/><rect x="8" y="10" width="14" height="2.5" opacity=".5"/><ellipse cx="15" cy="14" rx="14" ry="3.2"/></svg><span class="wv">0</span></span>
+    <button class="sbtn" id="bgBtn" type="button" aria-pressed="false">Фон: світлий</button>
+    <button class="sbtn" id="blindsBtn" type="button" aria-pressed="true">Жалюзі</button>
+    <button class="sbtn" id="soundBtn" type="button" aria-pressed="true">Звук: увімк</button>
+    <button class="sbtn" id="musicBtn" type="button">Музика: Авто</button>
+    <button class="sbtn" id="fsBtn" type="button" hidden>На весь екран</button>
+    <button class="sbtn" id="closeStage" type="button">Закрити</button>
   </div>
   <div class="hud" id="hud" hidden>
-    <div class="hud-block"><span class="lbl">Жизни</span><span class="val lives" id="hLives"></span></div>
-    <div class="hud-block"><span class="lbl" id="hLevel">Уровень 1</span><span class="lvbar"><i id="hLvBar"></i></span></div>
-    <div class="hud-block"><span class="lbl">Шляпы</span><span class="val"><svg viewBox="0 0 30 20" aria-hidden="true"><path d="M8 13 C8 5 10 2 15 2 C20 2 22 5 22 13 Z"/><rect x="8" y="10" width="14" height="2.5" opacity=".5"/><ellipse cx="15" cy="14" rx="14" ry="3.2"/></svg><span id="hHats">0</span></span></div>
-    <div class="hud-block"><span class="lbl">Счёт</span><span class="val" id="hScore">0</span></div>
+    <div class="hud-block"><span class="lbl">Життя</span><span class="val lives" id="hLives"></span></div>
+    <div class="hud-block"><span class="lbl" id="hLevel">Рівень 1</span><span class="lvbar"><i id="hLvBar"></i></span></div>
+    <div class="hud-block"><span class="lbl">Капелюхи</span><span class="val"><svg viewBox="0 0 30 20" aria-hidden="true"><path d="M8 13 C8 5 10 2 15 2 C20 2 22 5 22 13 Z"/><rect x="8" y="10" width="14" height="2.5" opacity=".5"/><ellipse cx="15" cy="14" rx="14" ry="3.2"/></svg><span id="hHats">0</span></span></div>
+    <div class="hud-block"><span class="lbl">Рахунок</span><span class="val" id="hScore">0</span></div>
     <div class="hud-block rec"><span class="lbl">Рекорд</span><span class="val" id="hBest">0</span></div>
     <div class="boosts" id="hBoosts"></div>
   </div>
   <div class="flash" id="flash"></div>
-  <button class="ability" id="abilBtn" type="button" hidden><span class="ab-name" id="abName">Трос</span><span class="ab-key" id="abKey">пробел</span></button>
-  <div class="banner" id="banner" hidden>Беги!</div>
+  <button class="ability" id="abilBtn" type="button" hidden><span class="ab-name" id="abName">Трос</span><span class="ab-key" id="abKey">пробіл</span></button>
+  <div class="banner" id="banner" hidden>Біжи!</div>
   <div class="over" id="over" hidden>
     <div class="over-card" role="dialog" aria-labelledby="overTitle">
-      <div class="tag">Рапорт · дело № 47</div>
-      <h2 id="overTitle">Погоня окончена</h2>
-      <div class="newrec" id="newRec" hidden>Новый рекорд</div>
+      <div class="tag">Рапорт · справа № 47</div>
+      <h2 id="overTitle">Погоню завершено</h2>
+      <div class="newrec" id="newRec" hidden>Новий рекорд</div>
       <p class="unlock" id="oUnlock" hidden></p>
       <dl>
-        <dt>Счёт</dt><dd id="oScore">0</dd>
-        <dt>Уровень</dt><dd id="oLevel">1</dd>
-        <dt>Шляпы</dt><dd id="oHats">0</dd>
-        <dt>Метры</dt><dd id="oDist">0</dd>
-        <dt>Личный рекорд</dt><dd id="oBest">0</dd>
-        <dt>В кошелёк</dt><dd id="oWallet">+0</dd>
+        <dt>Рахунок</dt><dd id="oScore">0</dd>
+        <dt>Рівень</dt><dd id="oLevel">1</dd>
+        <dt>Капелюхи</dt><dd id="oHats">0</dd>
+        <dt>Метри</dt><dd id="oDist">0</dd>
+        <dt>Особистий рекорд</dt><dd id="oBest">0</dd>
+        <dt>У гаманець</dt><dd id="oWallet">+0</dd>
       </dl>
       <div class="row">
-        <button class="sbtn solid" id="againBtn" type="button">Ещё раз</button>
+        <button class="sbtn solid" id="againBtn" type="button">Ще раз</button>
         <button class="sbtn" id="charBtn2" type="button">Персонаж: Детектив</button>
         <button class="sbtn" id="arsBtn2" type="button">Арсенал</button>
-        <button class="sbtn" id="shopBtn2" type="button">Магазин</button>
-        <button class="sbtn" id="questBtn2" type="button">Задания</button>
+        <button class="sbtn" id="shopBtn2" type="button">Крамниця</button>
+        <button class="sbtn" id="questBtn2" type="button">Завдання</button>
         <button class="sbtn" id="exitRunBtn" type="button">На сцену</button>
       </div>
     </div>
   </div>
   <div class="over" id="arsenal" hidden>
     <div class="over-card wide" role="dialog" aria-labelledby="arsTitle">
-      <div class="tag">Арсенал · дело № 47</div>
-      <h2 id="arsTitle">Способность</h2>
-      <p class="ars-note" id="arsNote">Активируется пробелом. Каждые 3 уровня открывают новую способность, только для того героя, которым они пройдены.</p>
+      <div class="tag">Арсенал · справа № 47</div>
+      <h2 id="arsTitle">Здібність</h2>
+      <p class="ars-note" id="arsNote">Активується пробілом. Кожні 3 рівні відкривають нову здібність, лише для того героя, яким їх пройдено.</p>
       <div class="ars-list" id="arsList"></div>
       <div class="row"><button class="sbtn solid" id="arsClose" type="button">Готово</button><button class="sbtn" id="charBtn3" type="button">Персонаж: Детектив</button></div>
     </div>
@@ -336,43 +343,43 @@ body.stage-open{overflow:hidden;overscroll-behavior:none}
   <div class="voice" id="voice" hidden><span class="who">Голос за кадром</span><p id="voiceText"></p></div>
   <div class="over" id="pause" hidden>
     <div class="over-card" role="dialog" aria-labelledby="pauseTitle">
-      <div class="tag">Погоня на паузе</div>
+      <div class="tag">Погоня на паузі</div>
       <h2 id="pauseTitle">Перекур</h2>
       <dl>
-        <dt>Уровень</dt><dd id="pLevel">1</dd>
-        <dt>Жизни</dt><dd id="pLives">3</dd>
-        <dt>Шляпы</dt><dd id="pHats">0</dd>
-        <dt>Счёт</dt><dd id="pScore">0</dd>
+        <dt>Рівень</dt><dd id="pLevel">1</dd>
+        <dt>Життя</dt><dd id="pLives">3</dd>
+        <dt>Капелюхи</dt><dd id="pHats">0</dd>
+        <dt>Рахунок</dt><dd id="pScore">0</dd>
       </dl>
       <div class="row">
-        <button class="sbtn solid" id="resumeBtn" type="button">Продолжить</button>
+        <button class="sbtn solid" id="resumeBtn" type="button">Продовжити</button>
         <button class="sbtn" id="restartBtn" type="button">Заново</button>
         <button class="sbtn" id="quitBtn" type="button">На сцену</button>
-        <button class="sbtn" id="pSound" type="button">Звук: вкл</button>
-        <button class="sbtn" id="pMusic" type="button">Музыка: Авто</button>
+        <button class="sbtn" id="pSound" type="button">Звук: увімк</button>
+        <button class="sbtn" id="pMusic" type="button">Музика: Авто</button>
       </div>
-      <p class="ars-note" style="margin:14px 0 0">Собранные шляпы уйдут в кошелёк и при выходе · Enter — продолжить · Esc — пауза</p>
+      <p class="ars-note" style="margin:14px 0 0">Зібрані капелюхи підуть у гаманець і при виході · Enter — продовжити · Esc — пауза</p>
     </div>
   </div>
   <aside class="drawer" id="shop" hidden aria-labelledby="shopTitle">
-    <div class="tag">Лавка старого шляпника</div>
-    <div class="head"><h2 id="shopTitle">Магазин</h2><span class="wallet"><svg viewBox="0 0 30 20" aria-hidden="true"><path d="M8 13 C8 5 10 2 15 2 C20 2 22 5 22 13 Z"/><rect x="8" y="10" width="14" height="2.5" opacity=".5"/><ellipse cx="15" cy="14" rx="14" ry="3.2"/></svg><span class="wv">0</span></span></div>
-    <p class="note">Платишь шляпами из кошелька. Их приносит каждая погоня и ежедневные задания. Шляпу видно сразу на герое.</p>
-    <div class="sec">Шляпы · для любого героя</div>
+    <div class="tag">Крамничка старого капелюшника</div>
+    <div class="head"><h2 id="shopTitle">Крамниця</h2><span class="wallet"><svg viewBox="0 0 30 20" aria-hidden="true"><path d="M8 13 C8 5 10 2 15 2 C20 2 22 5 22 13 Z"/><rect x="8" y="10" width="14" height="2.5" opacity=".5"/><ellipse cx="15" cy="14" rx="14" ry="3.2"/></svg><span class="wv">0</span></span></div>
+    <p class="note">Платиш капелюхами з гаманця. Їх приносить кожна погоня і щоденні завдання. Капелюх одразу видно на герої.</p>
+    <div class="sec">Капелюхи · для будь-якого героя</div>
     <div id="shopHats"></div>
-    <div class="sec">Улучшения</div>
+    <div class="sec">Покращення</div>
     <div id="shopUpg"></div>
     <div class="row"><button class="sbtn solid" id="shopClose" type="button">Готово</button></div>
   </aside>
   <aside class="drawer" id="quests" hidden aria-labelledby="questTitle">
-    <div class="tag">Ежедневные задания</div>
-    <div class="head"><h2 id="questTitle">Задания</h2><span class="wallet"><svg viewBox="0 0 30 20" aria-hidden="true"><path d="M8 13 C8 5 10 2 15 2 C20 2 22 5 22 13 Z"/><rect x="8" y="10" width="14" height="2.5" opacity=".5"/><ellipse cx="15" cy="14" rx="14" ry="3.2"/></svg><span class="wv">0</span></span></div>
-    <p class="note">Три задания на сегодня. Выполни и забери награду. За все три — бонус.</p>
+    <div class="tag">Щоденні завдання</div>
+    <div class="head"><h2 id="questTitle">Завдання</h2><span class="wallet"><svg viewBox="0 0 30 20" aria-hidden="true"><path d="M8 13 C8 5 10 2 15 2 C20 2 22 5 22 13 Z"/><rect x="8" y="10" width="14" height="2.5" opacity=".5"/><ellipse cx="15" cy="14" rx="14" ry="3.2"/></svg><span class="wv">0</span></span></div>
+    <p class="note">Три завдання на сьогодні. Виконай і забери нагороду. За всі три — бонус.</p>
     <div id="questList"></div>
     <div class="timer" id="questTimer"></div>
     <div class="row"><button class="sbtn solid" id="questClose" type="button">Готово</button></div>
   </aside>
-  <div class="hint" id="hint">Клик — трос · зажми и веди — прицел · отпусти — удар · «Старт» — погоня</div>
+  <div class="hint" id="hint">Клік — трос · затисни й веди — приціл · відпусти — удар · «Старт» — погоня</div>
 </div>
 
 <script src="vendor/three.min.js"></script>
@@ -512,7 +519,7 @@ body.stage-open{overflow:hidden;overscroll-behavior:none}
         const ph=RN_MEL[loop%4];if(ph)for(const n of ph)if(n[0]===st)vibes(t,n[1],n[2]*S,.045);
       }}
     };
-    const ORDER=['auto','moon','chase','rain','off'], NAMES={auto:'Авто',moon:'Синяя луна',chase:'Погоня',rain:'Полночный дождь',off:'выкл'};
+    const ORDER=['auto','moon','chase','rain','off'], NAMES={auto:'Авто',moon:'Синій місяць',chase:'Погоня',rain:'Опівнічний дощ',off:'вимк'};
     try{const v=localStorage.getItem('noir-music');if(ORDER.includes(v))pref=v}catch(e){}
     const musicVol=()=>pref==='off'?0:(curMode==='run'?.42:.34);
     function applyTrack(){
@@ -583,24 +590,24 @@ body.stage-open{overflow:hidden;overscroll-behavior:none}
 
   // ===== narrator =====
   const LINES={
-    stage:['Кабинет. Лампа, тень и нераскрытое дело № 47.','Дождь стучал в окно, как кредитор. Я ждал звонка.','В этом городе у каждой тени есть хозяин. У этой — я.'],
-    start:['Город пах дождём и чужими тайнами. Я побежал.','Ночь только начиналась. Как и неприятности.','Шляпа на месте, совесть тоже. Пора.'],
-    hit:['Асфальт бьёт крепче любого громилы.','Больно. Но в этом городе больно всем.','Ещё один синяк в мою коллекцию.','Я встал. Здесь по-другому нельзя.'],
-    last:['Последний шанс. Как последняя сигарета в пачке.','Ещё один промах — и город меня похоронит.'],
-    level:['Ещё один квартал позади. Город всё ещё не сдаётся.','Я прибавил шагу. Тень впереди — тоже.','Фонари мелькали, как вопросы без ответов.'],
-    boost:['Удача улыбнулась. Редкая гостья в этих краях.','Подарок от города. Значит, скоро счёт.'],
-    hats:['Шляпы — единственное, что в этом городе не врёт.','Ещё горсть шляп. Хватит на целый гардероб подозреваемых.'],
-    record:['Новый рекорд. Жаль, его не повесишь на стену.','Так быстро я не бегал даже от бывшей.'],
-    grapple:['Трос держит. Гравитация подождёт.'], raid:['Полиция! Всем с дороги.'], phase:['Я стал тенью. В этом городе это несложно.'],
-    flash:['Улыбнитесь, вы в деле.'], smoke:['Дым. Время вязнет, как кофе в забегаловке.'], glide:['Плащ поймал ветер. Хоть кто-то мне помогает.'],
-    z_tunnel:['Тоннель. Сюда даже дождь боится заходить.','В тоннеле темно, как в кармане у прокурора.'],
-    z_bridge:['Мост. Внизу река, которая помнит всё.','Над водой ветер пахнет мазутом и прощанием.'],
-    z_elevated:['Надземка грохочет, как совесть грешника.','Сверху идёт поезд. Ему тоже некуда спешить.'],
-    z_cinema:['Кинобульвар. Здесь даже ложь светится неоном.','Афиши обещали счастливый конец. Афиши всегда врут.'],
-    instinct:['Чутьё не подводит. В отличие от людей.'], ram:['Иногда дверь проще выбить.'],
-    over:['Город победил. На этот раз.','Дело осталось открытым. Как и рана.','Дождь смоет и это.'],
-    win:['Дело раскрыто. Утром дождь кончится. Или нет.'],
-    shop:['Новая шляпа. Город меня не узнает.','Хорошая шляпа — половина алиби.','Старый шляпник не задавал вопросов. Я тоже.']
+    stage:['Кабінет. Лампа, тінь і нерозкрита справа № 47.','Дощ стукав у вікно, як кредитор. Я чекав дзвінка.','У цьому місті кожна тінь має господаря. Ця — мене.'],
+    start:['Місто пахло дощем і чужими таємницями. Я побіг.','Ніч тільки починалася. Як і неприємності.','Капелюх на місці, совість теж. Час.'],
+    hit:['Асфальт б’є міцніше за будь-якого громилу.','Боляче. Але в цьому місті боляче всім.','Ще один синець у мою колекцію.','Я підвівся. Тут інакше не можна.'],
+    last:['Останній шанс. Як остання цигарка в пачці.','Ще один промах — і місто мене поховає.'],
+    level:['Ще один квартал позаду. Місто досі не здається.','Я прискорився. Тінь попереду — теж.','Ліхтарі миготіли, як питання без відповідей.'],
+    boost:['Удача всміхнулася. Рідкісна гостя в цих краях.','Подарунок від міста. Отже, скоро рахунок.'],
+    hats:['Капелюхи — єдине, що в цьому місті не бреше.','Ще жменя капелюхів. Вистачить на цілий гардероб підозрюваних.'],
+    record:['Новий рекорд. Шкода, його не повісиш на стіну.','Так швидко я не бігав навіть від колишньої.'],
+    grapple:['Трос тримає. Гравітація зачекає.'], raid:['Поліція! Усі з дороги.'], phase:['Я став тінню. У цьому місті це нескладно.'],
+    flash:['Усміхніться, ви у справі.'], smoke:['Дим. Час грузне, як кава в забігайлівці.'], glide:['Плащ упіймав вітер. Хоч хтось мені допомагає.'],
+    z_tunnel:['Тунель. Сюди навіть дощ боїться заходити.','У тунелі темно, як у кишені в прокурора.'],
+    z_bridge:['Міст. Унизу річка, яка пам’ятає все.','Над водою вітер пахне мазутом і прощанням.'],
+    z_elevated:['Надземка гуркоче, як совість грішника.','Згори йде потяг. Йому теж нікуди поспішати.'],
+    z_cinema:['Кінобульвар. Тут навіть брехня світиться неоном.','Афіші обіцяли щасливий кінець. Афіші завжди брешуть.'],
+    instinct:['Чуття не підводить. На відміну від людей.'], ram:['Іноді двері простіше вибити.'],
+    over:['Місто перемогло. Цього разу.','Справа лишилася відкритою. Як і рана.','Дощ змиє й це.'],
+    win:['Справу розкрито. Уранці дощ скінчиться. Чи ні.'],
+    shop:['Новий капелюх. Місто мене не впізнає.','Добрий капелюх — половина алібі.','Старий капелюшник не ставив питань. Я теж.']
   };
   let voiceTimer=0,voiceType=0,lastSay=0,lastLine='';
   function say(cat,force){
@@ -614,7 +621,7 @@ body.stage-open{overflow:hidden;overscroll-behavior:none}
 
   function open(){
     stageEl.hidden=false; document.body.classList.add('stage-open');
-    if(!inited){ inited=true; try{ api=init(); }catch(e){ console.error(e); stageEl.insertAdjacentHTML('beforeend','<div class="err">WebGL недоступен в этом браузере.</div>'); return; } }
+    if(!inited){ inited=true; try{ api=init(); }catch(e){ console.error(e); stageEl.insertAdjacentHTML('beforeend','<div class="err">WebGL недоступний у цьому браузері.</div>'); return; } }
     if(!api) return;
     api.resize(); running=true; api.clock.getDelta(); loop();
     SND.start(); SND.mode('stage'); say('stage',true);
@@ -622,13 +629,13 @@ body.stage-open{overflow:hidden;overscroll-behavior:none}
   function close(){ if(api) api.stopRun(); exitFs(); document.body.classList.remove('stage-open'); stageEl.hidden=true; running=false; cancelAnimationFrame(raf); SND.suspend(); }
   function loop(){ if(!running) return; api.frame(); raf=requestAnimationFrame(loop); }
   $('openStage').onclick=open; $('openStage2').onclick=open; $('closeStage').onclick=close;
-  function updSound(){['soundBtn','pSound'].forEach(id=>{$(id).textContent=SND.on?'Звук: вкл':'Звук: выкл';$(id).setAttribute('aria-pressed',SND.on)})}
+  function updSound(){['soundBtn','pSound'].forEach(id=>{$(id).textContent=SND.on?'Звук: увімк':'Звук: вимк';$(id).setAttribute('aria-pressed',SND.on)})}
   $('pSound').onclick=()=>{SND.setOn(!SND.on);updSound()};
-  function updMusic(){['musicBtn','pMusic'].forEach(id=>$(id).textContent='Музыка: '+SND.musicName)}
+  function updMusic(){['musicBtn','pMusic'].forEach(id=>$(id).textContent='Музика: '+SND.musicName)}
   $('musicBtn').onclick=()=>{SND.cycleMusic();SND.start();updMusic()};
   $('pMusic').onclick=()=>{SND.cycleMusic();updMusic()}; updMusic();
   const TOUCH=matchMedia('(pointer:coarse)').matches||('ontouchstart' in window);
-  if(TOUCH)hint.textContent='Тап — трос · зажми и веди — прицел · «Старт» — погоня';
+  if(TOUCH)hint.textContent='Тап — трос · затисни й веди — приціл · «Старт» — погоня';
   const fsEl=document.fullscreenElement!==undefined?'std':(document.webkitFullscreenElement!==undefined?'wk':'');
   const isFs=()=>!!(document.fullscreenElement||document.webkitFullscreenElement);
   function exitFs(){try{if(isFs())(document.exitFullscreen||document.webkitExitFullscreen).call(document)}catch(e){}}
@@ -636,7 +643,7 @@ body.stage-open{overflow:hidden;overscroll-behavior:none}
     $('fsBtn').hidden=false;
     $('fsBtn').onclick=()=>{try{if(isFs()){exitFs();return}const r=(stageEl.requestFullscreen||stageEl.webkitRequestFullscreen).call(stageEl);
       if(r&&r.then)r.then(()=>{try{screen.orientation&&screen.orientation.lock&&screen.orientation.lock('portrait').catch(()=>{})}catch(e){}}).catch(()=>{$('fsBtn').hidden=true})}catch(e){$('fsBtn').hidden=true}};
-    const fsUpd=()=>{$('fsBtn').textContent=isFs()?'Обычный экран':'На весь экран';if(api)setTimeout(()=>api.resize(),120)};
+    const fsUpd=()=>{$('fsBtn').textContent=isFs()?'Звичайний екран':'На весь екран';if(api)setTimeout(()=>api.resize(),120)};
     document.addEventListener('fullscreenchange',fsUpd);document.addEventListener('webkitfullscreenchange',fsUpd);
   }
   addEventListener('orientationchange',()=>{if(api&&!stageEl.hidden)setTimeout(()=>api.resize(),250)});
@@ -693,26 +700,26 @@ body.stage-open{overflow:hidden;overscroll-behavior:none}
     // ===== characters =====
     const PALETTES=[
       {name:'Детектив',sig:'grapple',coat:0x131313,vest:0x1c1c1f,pants:0x0f0f0f,glove:0x0c0c0c,mask:0x171717,hat:0x0e0e0e,band:0x050505},
-      {name:'Инспектор',sig:'raid',coat:0x4f4f53,vest:0x202023,pants:0x2a2a2d,glove:0x141414,mask:0x1a1a1a,hat:0x38383b,band:0x0c0c0c},
-      {name:'Белый плащ',sig:'phase',coat:0xd3d1cb,vest:0x7d7d7a,pants:0x1b1b1b,glove:0x161616,mask:0x121212,hat:0xd9d7d1,band:0x111111}
+      {name:'Інспектор',sig:'raid',coat:0x4f4f53,vest:0x202023,pants:0x2a2a2d,glove:0x141414,mask:0x1a1a1a,hat:0x38383b,band:0x0c0c0c},
+      {name:'Білий плащ',sig:'phase',coat:0xd3d1cb,vest:0x7d7d7a,pants:0x1b1b1b,glove:0x161616,mask:0x121212,hat:0xd9d7d1,band:0x111111}
     ];
     let charIdx=0;
     // ===== wallet, shop & daily quests =====
     const HATS={
-      own:{name:'Своя шляпа',price:0,desc:'фирменная шляпа героя'},
-      trilby:{name:'Трилби',price:150,color:0x2b2b2e,band:0x0a0a0a,shape:'trilby',desc:'узкие поля, высокая тулья'},
-      porkpie:{name:'Порк-пай',price:250,color:0x1a1a1c,band:0x5a5a5e,shape:'porkpie',desc:'плоская тулья, как у джазменов'},
-      bowler:{name:'Котелок',price:400,color:0x0d0d0d,band:0x1e1e1e,shape:'bowler',desc:'круглый, как у банковских клерков'},
-      white:{name:'Белая федора',price:600,color:0xdedcd6,band:0x111111,shape:'fedora',desc:'видна в любом тумане'},
-      gold:{name:'Золотая лента',price:900,color:0x0e0e0e,band:'gold',shape:'fedora',desc:'чёрная федора с лентой цвета фонаря'},
-      top:{name:'Цилиндр',price:1200,color:0x0b0b0b,band:0x262626,shape:'top',desc:'для визита в высший свет'}
+      own:{name:'Свій капелюх',price:0,desc:'фірмовий капелюх героя'},
+      trilby:{name:'Трилбі',price:150,color:0x2b2b2e,band:0x0a0a0a,shape:'trilby',desc:'вузькі криси, висока тулія'},
+      porkpie:{name:'Порк-пай',price:250,color:0x1a1a1c,band:0x5a5a5e,shape:'porkpie',desc:'пласка тулія, як у джазменів'},
+      bowler:{name:'Котелок',price:400,color:0x0d0d0d,band:0x1e1e1e,shape:'bowler',desc:'круглий, як у банківських клерків'},
+      white:{name:'Біла федора',price:600,color:0xdedcd6,band:0x111111,shape:'fedora',desc:'видно в будь-якому тумані'},
+      gold:{name:'Золота стрічка',price:900,color:0x0e0e0e,band:'gold',shape:'fedora',desc:'чорна федора зі стрічкою кольору ліхтаря'},
+      top:{name:'Циліндр',price:1200,color:0x0b0b0b,band:0x262626,shape:'top',desc:'для візиту у вищий світ'}
     };
     const UPG={
-      boost:{name:'Долгие бустеры',desc:'+20% к длительности бустеров',max:3,price:[200,450,900]},
-      cool:{name:'Быстрая перезарядка',desc:'−10% к перезарядке способности',max:3,price:[250,550,1000]},
-      life:{name:'Запасная жизнь',desc:'+1 жизнь на старте погони',max:2,price:[500,1400]},
-      vest:{name:'Бронежилет на старте',desc:'каждая погоня начинается с бронежилетом',max:1,price:[700]},
-      purse:{name:'Тугой кошелёк',desc:'+15% шляп в кошелёк после погони',max:3,price:[300,700,1200]}
+      boost:{name:'Довгі бустери',desc:'+20% до тривалості бустерів',max:3,price:[200,450,900]},
+      cool:{name:'Швидке перезаряджання',desc:'−10% до перезаряджання здібності',max:3,price:[250,550,1000]},
+      life:{name:'Запасне життя',desc:'+1 життя на старті погоні',max:2,price:[500,1400]},
+      vest:{name:'Бронежилет на старті',desc:'кожна погоня починається з бронежилетом',max:1,price:[700]},
+      purse:{name:'Тугий гаманець',desc:'+15% капелюхів у гаманець після погоні',max:3,price:[300,700,1200]}
     };
     const save={wallet:0,hat:'own',owned:['own'],upg:{boost:0,cool:0,life:0,vest:0,purse:0}};
     try{const v=JSON.parse(localStorage.getItem('noir-shop')||'null');if(v){Object.assign(save,v);save.upg=Object.assign({boost:0,cool:0,life:0,vest:0,purse:0},v.upg||{})}}catch(e){}
@@ -729,12 +736,12 @@ body.stage-open{overflow:hidden;overscroll-behavior:none}
     function renderShop(){
       let h='';
       for(const k in HATS){const it=HATS[k], own=save.owned.includes(k), on=save.hat===k;
-        const act=on?'<button class="sbtn solid" type="button" disabled>Надета</button>':own?'<button class="sbtn" type="button" data-wear="'+k+'">Надеть</button>':
+        const act=on?'<button class="sbtn solid" type="button" disabled>Одягнено</button>':own?'<button class="sbtn" type="button" data-wear="'+k+'">Одягнути</button>':
           '<button class="sbtn" type="button" data-buyhat="'+k+'"'+(save.wallet<it.price?' disabled':'')+'>'+priceHtml(it.price)+'</button>';
         h+='<div class="item"><b>'+it.name+'</b><span class="act">'+act+'</span><span class="d">'+it.desc+'</span></div>'}
       $('shopHats').innerHTML=h; h='';
       for(const k in UPG){const it=UPG[k], lv=U(k), mx=lv>=it.max, pr=it.price[lv];
-        const pips='<span class="pips" aria-label="'+lv+' из '+it.max+'">'+Array.from({length:it.max},(_,i)=>'<i class="'+(i<lv?'on':'')+'"></i>').join('')+'</span>';
+        const pips='<span class="pips" aria-label="'+lv+' з '+it.max+'">'+Array.from({length:it.max},(_,i)=>'<i class="'+(i<lv?'on':'')+'"></i>').join('')+'</span>';
         const act=mx?'<button class="sbtn solid" type="button" disabled>Максимум</button>':'<button class="sbtn" type="button" data-upg="'+k+'"'+(save.wallet<pr?' disabled':'')+'>'+priceHtml(pr)+'</button>';
         h+='<div class="item"><b>'+it.name+pips+'</b><span class="act">'+act+'</span><span class="d">'+it.desc+'</span></div>'}
       $('shopUpg').innerHTML=h; updWallet();
@@ -747,16 +754,18 @@ body.stage-open{overflow:hidden;overscroll-behavior:none}
       renderShop()});
 
     // daily quests
+    // Ukrainian plural: 1 капелюх, 2–4 капелюхи, 5+ капелюхів (11–14 → many)
+    const pl=(n,one,few,many)=>{const a=n%10,b=n%100;return a===1&&b!==11?one:a>=2&&a<=4&&(b<12||b>14)?few:many};
     const QDEF=[
-      {t:'hatsRun',kind:'run',txt:n=>'Собери '+n+' шляп за одну погоню',vals:[40,70,110],rw:[60,100,150]},
-      {t:'hatsDay',kind:'sum',txt:n=>'Собери '+n+' шляп за день',vals:[120,220,350],rw:[70,110,170]},
-      {t:'level',kind:'run',txt:n=>'Дойди до уровня '+n,vals:[3,5,7],rw:[60,110,170]},
-      {t:'dist',kind:'run',txt:n=>'Пробеги '+n+' м за одну погоню',vals:[800,1400,2200],rw:[60,100,160]},
-      {t:'noHit',kind:'sum',txt:n=>n>1?'Пройди '+n+' уровня без урона':'Пройди уровень без урона',vals:[1,2,3],rw:[80,120,180]},
-      {t:'abil',kind:'sum',txt:n=>'Используй способность '+n+' раз',vals:[4,7,10],rw:[50,90,130]},
-      {t:'boost',kind:'sum',txt:n=>'Подбери '+n+' бустеров',vals:[3,5,8],rw:[50,90,130]},
-      {t:'score',kind:'run',txt:n=>'Набери '+n+' очков за погоню',vals:[1500,3000,5000],rw:[60,110,170]},
-      {t:'hero',kind:'sum',txt:(n,h)=>'Пройди '+n+' ур. за героя «'+h+'»',vals:[2,3,4],rw:[70,110,170]}
+      {t:'hatsRun',kind:'run',txt:n=>'Збери '+n+' '+pl(n,'капелюх','капелюхи','капелюхів')+' за одну погоню',vals:[40,70,110],rw:[60,100,150]},
+      {t:'hatsDay',kind:'sum',txt:n=>'Збери '+n+' '+pl(n,'капелюх','капелюхи','капелюхів')+' за день',vals:[120,220,350],rw:[70,110,170]},
+      {t:'level',kind:'run',txt:n=>'Дійди до рівня '+n,vals:[3,5,7],rw:[60,110,170]},
+      {t:'dist',kind:'run',txt:n=>'Пробіжи '+n+' м за одну погоню',vals:[800,1400,2200],rw:[60,100,160]},
+      {t:'noHit',kind:'sum',txt:n=>n>1?'Пройди '+n+' '+pl(n,'рівень','рівні','рівнів')+' без шкоди':'Пройди рівень без шкоди',vals:[1,2,3],rw:[80,120,180]},
+      {t:'abil',kind:'sum',txt:n=>'Використай здібність '+n+' '+pl(n,'раз','рази','разів'),vals:[4,7,10],rw:[50,90,130]},
+      {t:'boost',kind:'sum',txt:n=>'Підбери '+n+' '+pl(n,'бустер','бустери','бустерів'),vals:[3,5,8],rw:[50,90,130]},
+      {t:'score',kind:'run',txt:n=>'Набери '+n+' '+pl(n,'очко','очки','очок')+' за погоню',vals:[1500,3000,5000],rw:[60,110,170]},
+      {t:'hero',kind:'sum',txt:(n,h)=>'Пройди '+n+' рів. за героя «'+h+'»',vals:[2,3,4],rw:[70,110,170]}
     ];
     const todayKey=()=>{const d=new Date();return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()};
     function makeDaily(key){
@@ -773,28 +782,28 @@ body.stage-open{overflow:hidden;overscroll-behavior:none}
       daily=makeDaily(k);saveDaily();return daily}
     const saveDaily=()=>{try{localStorage.setItem('noir-daily',JSON.stringify(daily))}catch(e){}};
     const claimable=()=>{const d=loadDaily();return d.q.some(q=>q.prog>=q.target&&!q.claimed)||(!d.bonus&&d.q.every(q=>q.claimed))};
-    function updQuestBadge(){const c=claimable();['questBtn','questBtn2'].forEach(id=>$(id).innerHTML='Задания'+(c?'<span class="dot" aria-label="есть награда"></span>':''))}
+    function updQuestBadge(){const c=claimable();['questBtn','questBtn2'].forEach(id=>$(id).innerHTML='Завдання'+(c?'<span class="dot" aria-label="є нагорода"></span>':''))}
     function questEv(t,v){
       const d=loadDaily();let ch_=false;
       for(const q of d.q){if(q.t!==t||q.prog>=q.target)continue;
         q.prog=Math.min(q.target,q.kind==='run'?Math.max(q.prog,Math.floor(v)):q.prog+v);ch_=true;
-        if(q.prog>=q.target){sfx('unlock');if(mode==='run'&&!run.over)setTimeout(()=>banner('Задание выполнено',q.text.toLowerCase()+' · +'+q.reward),300)}}
+        if(q.prog>=q.target){sfx('unlock');if(mode==='run'&&!run.over)setTimeout(()=>banner('Завдання виконано',q.text.toLowerCase()+' · +'+q.reward),300)}}
       if(ch_){saveDaily();updQuestBadge()}
     }
     function renderQuests(){
       const d=loadDaily();let h='';
       for(let i=0;i<d.q.length;i++){const q=d.q[i],done=q.prog>=q.target;
-        const act=q.claimed?'<span class="got">Получено</span>':'<button class="sbtn'+(done?' solid':'')+'" type="button" data-claim="'+i+'"'+(done?'':' disabled')+'>'+(done?'Забрать':priceHtml(q.reward))+'</button>';
+        const act=q.claimed?'<span class="got">Отримано</span>':'<button class="sbtn'+(done?' solid':'')+'" type="button" data-claim="'+i+'"'+(done?'':' disabled')+'>'+(done?'Забрати':priceHtml(q.reward))+'</button>';
         h+='<div class="quest'+(done?' done':'')+'"><span class="q">'+q.text+'</span><span class="act">'+act+'</span>'+
-          '<span class="qbar"><i style="width:'+(q.prog/q.target*100)+'%"></i></span><span class="rw">'+q.prog+' / '+q.target+' · награда '+q.reward+'</span></div>'}
+          '<span class="qbar"><i style="width:'+(q.prog/q.target*100)+'%"></i></span><span class="rw">'+q.prog+' / '+q.target+' · нагорода '+q.reward+'</span></div>'}
       const all=d.q.every(q=>q.claimed);
-      h+='<div class="quest'+(all?' done':'')+'"><span class="q">Бонус за все три задания</span><span class="act">'+(d.bonus?'<span class="got">Получено</span>':
-        '<button class="sbtn'+(all?' solid':'')+'" type="button" data-bonus="1"'+(all?'':' disabled')+'>'+(all?'Забрать':priceHtml(150))+'</button>')+'</span>'+
-        '<span class="rw">награда 150</span></div>';
+      h+='<div class="quest'+(all?' done':'')+'"><span class="q">Бонус за всі три завдання</span><span class="act">'+(d.bonus?'<span class="got">Отримано</span>':
+        '<button class="sbtn'+(all?' solid':'')+'" type="button" data-bonus="1"'+(all?'':' disabled')+'>'+(all?'Забрати':priceHtml(150))+'</button>')+'</span>'+
+        '<span class="rw">нагорода 150</span></div>';
       $('questList').innerHTML=h; updWallet(); updQuestBadge(); tickTimer();
     }
     function tickTimer(){const n=new Date(),m=new Date(n);m.setHours(24,0,0,0);const s=Math.max(0,(m-n)/1000|0);
-      $('questTimer').textContent='Новые задания через '+Math.floor(s/3600)+' ч '+Math.floor(s%3600/60)+' мин';
+      $('questTimer').textContent='Нові завдання через '+Math.floor(s/3600)+' год '+Math.floor(s%3600/60)+' хв';
       if(daily&&daily.key!==todayKey()&&!$('quests').hidden)renderQuests()}
     setInterval(()=>{if(!$('quests').hidden)tickTimer()},30000);
     $('quests').addEventListener('click',e=>{const b=e.target.closest('button');if(!b||b.disabled)return;const d=loadDaily();
@@ -956,11 +965,11 @@ body.stage-open{overflow:hidden;overscroll-behavior:none}
         x.fillRect(c*32+8,r*32+7,16,19); if(lit&&Math.random()<.5){x.fillStyle='#111112';x.fillRect(c*32+8,r*32+7+Math.random()*10,16,2)}
       }});t.wrapS=t.wrapT=THREE.RepeatWrapping;return t});
     const THEMES=[
-      {name:'Дождливый проспект',bg:[0x101113,0xbdbdba],far:[75,62],h:[6,22],w:[3,6],win:0,precip:'rain',lamps:1,sun:[.75,1.25],hemi:[.28,.62],road:[0x8a8a8a,0xd4d4d2],walk:[0x3a3a3b,0x8b8b89],ground:[0x141414,0x777775],bld:[0x8a8a8a,0x6e6e6e],glow:.85},
-      {name:'Туманный порт',bg:[0x0b0d10,0xa7abaf],far:[40,36],h:[3,7],w:[5,9],win:1,precip:'none',lamps:1,sun:[.55,1],hemi:[.3,.6],road:[0x6c7074,0xb9bdc0],walk:[0x2d3134,0x7b7f83],ground:[0x0f1214,0x6a6e72],bld:[0x6a6f74,0x585c61],glow:.6},
-      {name:'Деловой центр',bg:[0x0e0e11,0xcacac8],far:[100,85],h:[18,44],w:[4,7],win:2,precip:'drizzle',lamps:1,sun:[.9,1.35],hemi:[.26,.6],road:[0x7e7e80,0xcfcfcd],walk:[0x3a3a3c,0x969694],ground:[0x111113,0x808080],bld:[0x7c7c80,0x666669],glow:1},
-      {name:'Зимний квартал',bg:[0x14161a,0xd4d5d6],far:[58,52],h:[5,12],w:[3,6],win:0,precip:'snow',lamps:1,sun:[.7,1.15],hemi:[.34,.7],road:[0xa8a9ac,0xe4e4e2],walk:[0x8d8f93,0xe8e8e6],ground:[0x6a6c70,0xdcdcda],bld:[0x7b7d82,0x707276],glow:.9},
-      {name:'Полночь',bg:[0x050506,0x8e8e8b],far:[48,44],h:[8,20],w:[3,6],win:1,precip:'rain',lamps:0,sun:[1.15,1.45],hemi:[.12,.5],road:[0x6a6a6a,0xa9a9a7],walk:[0x262626,0x6f6f6d],ground:[0x080808,0x5b5b59],bld:[0x5a5a5a,0x4e4e4e],glow:.7}
+      {name:'Дощовий проспект',bg:[0x101113,0xbdbdba],far:[75,62],h:[6,22],w:[3,6],win:0,precip:'rain',lamps:1,sun:[.75,1.25],hemi:[.28,.62],road:[0x8a8a8a,0xd4d4d2],walk:[0x3a3a3b,0x8b8b89],ground:[0x141414,0x777775],bld:[0x8a8a8a,0x6e6e6e],glow:.85},
+      {name:'Туманний порт',bg:[0x0b0d10,0xa7abaf],far:[40,36],h:[3,7],w:[5,9],win:1,precip:'none',lamps:1,sun:[.55,1],hemi:[.3,.6],road:[0x6c7074,0xb9bdc0],walk:[0x2d3134,0x7b7f83],ground:[0x0f1214,0x6a6e72],bld:[0x6a6f74,0x585c61],glow:.6},
+      {name:'Діловий центр',bg:[0x0e0e11,0xcacac8],far:[100,85],h:[18,44],w:[4,7],win:2,precip:'drizzle',lamps:1,sun:[.9,1.35],hemi:[.26,.6],road:[0x7e7e80,0xcfcfcd],walk:[0x3a3a3c,0x969694],ground:[0x111113,0x808080],bld:[0x7c7c80,0x666669],glow:1},
+      {name:'Зимовий квартал',bg:[0x14161a,0xd4d5d6],far:[58,52],h:[5,12],w:[3,6],win:0,precip:'snow',lamps:1,sun:[.7,1.15],hemi:[.34,.7],road:[0xa8a9ac,0xe4e4e2],walk:[0x8d8f93,0xe8e8e6],ground:[0x6a6c70,0xdcdcda],bld:[0x7b7d82,0x707276],glow:.9},
+      {name:'Опівніч',bg:[0x050506,0x8e8e8b],far:[48,44],h:[8,20],w:[3,6],win:1,precip:'rain',lamps:0,sun:[1.15,1.45],hemi:[.12,.5],road:[0x6a6a6a,0xa9a9a7],walk:[0x262626,0x6f6f6d],ground:[0x080808,0x5b5b59],bld:[0x5a5a5a,0x4e4e4e],glow:.7}
     ];
     const PRECIP={rain:{kind:'line',n:MOBILE?380:800,speed:24,len:.5,col:[0xa8a8a8,0x505050],op:[.3,.28]},
       drizzle:{kind:'line',n:280,speed:18,len:.3,col:[0xa0a0a0,0x5a5a5a],op:[.25,.22]},
@@ -997,10 +1006,10 @@ body.stage-open{overflow:hidden;overscroll-behavior:none}
     }
     // ===== mini-locations =====
     const ZONES_DEF={
-      tunnel:{name:'Тоннель',len:95,hideB:false,hideL:true,cover:1},
-      bridge:{name:'Разводной мост',len:115,hideB:true,hideL:true,cover:0},
-      elevated:{name:'Под эстакадой',len:105,hideB:false,hideL:true,cover:.3},
-      cinema:{name:'Кинобульвар',len:96,hideB:false,hideL:false,cover:0}};
+      tunnel:{name:'Тунель',len:95,hideB:false,hideL:true,cover:1},
+      bridge:{name:'Розвідний міст',len:115,hideB:true,hideL:true,cover:0},
+      elevated:{name:'Під естакадою',len:105,hideB:false,hideL:true,cover:.3},
+      cinema:{name:'Кінобульвар',len:96,hideB:false,hideL:false,cover:0}};
     const zones=[]; let zoneLast='', tunF=0, tunL=0;
     const envBase={sun:1,hemi:.5,fog:new THREE.Color(),far:60}, BLACK=new THREE.Color(0x050505);
     const tLight=new THREE.PointLight(0xffe2b0,0,16,2); runG.add(tLight);
@@ -1016,8 +1025,8 @@ body.stage-open{overflow:hidden;overscroll-behavior:none}
       water:new THREE.MeshStandardMaterial({color:0x14181b,metalness:.7,roughness:.2}),
       streak:new THREE.MeshBasicMaterial({color:0xffe2a8,transparent:true,opacity:.2,blending:THREE.AdditiveBlending,depthWrite:false}),
       train:M(0x232427,.45,.55), trainWin:new THREE.MeshStandardMaterial({color:0xf3e3b8,emissive:0xf0dca8,emissiveIntensity:1.3}),
-      tunnelSign:plateMat(plateTex('ТОННЕЛЬ № 3')), bridgeSign:plateMat(plateTex('МОСТ ИМ. 1 МАЯ'))};
-    const SIGN_WORDS=['КИНО','ДЖАЗ','ОТЕЛЬ','БАР','ЛУНА','ТАНЦЫ'];
+      tunnelSign:plateMat(plateTex('ТУНЕЛЬ № 3')), bridgeSign:plateMat(plateTex('МІСТ ІМ. 1 ТРАВНЯ'))};
+    const SIGN_WORDS=['КІНО','ДЖАЗ','ГОТЕЛЬ','БАР','МІСЯЦЬ','ТАНЦІ'];
     const signMats=SIGN_WORDS.map(wd=>{const t=canvasTex(96,320,(x,w,h)=>{x.fillStyle='#0d0d0e';x.fillRect(0,0,w,h);
       x.fillStyle='#e8d6a6';for(let i=0;i<16;i++){x.beginPath();x.arc(10,12+i*19.5,4,0,7);x.fill();x.beginPath();x.arc(w-10,12+i*19.5,4,0,7);x.fill()}
       x.fillStyle='#f4f1ea';x.textAlign='center';x.textBaseline='middle';const fs=Math.min(58,250/wd.length);x.font='bold '+fs+'px Oswald, Impact, sans-serif';
@@ -1124,7 +1133,7 @@ body.stage-open{overflow:hidden;overscroll-behavior:none}
       for(let i=-2;i<12;i++){x.beginPath();x.moveTo(i*28,h);x.lineTo(i*28+14,0);x.lineTo(i*28+28,0);x.lineTo(i*28+14,h);x.fill()}});
     const signTex=canvasTex(256,220,(x,w,h)=>{x.fillStyle='#101010';x.fillRect(0,0,w,h);x.strokeStyle='#e9e7e1';x.lineWidth=8;x.strokeRect(10,10,w-20,h-20);
       x.fillStyle='#e9e7e1';x.textAlign='center';x.font='bold 74px Oswald, Impact, sans-serif';x.fillText('СТОП',w/2,110);
-      x.font='bold 30px Oswald, Impact, sans-serif';x.fillText('ПОЛИЦИЯ',w/2,165)});
+      x.font='bold 30px Oswald, Impact, sans-serif';x.fillText('ПОЛІЦІЯ',w/2,165)});
     const A={
       plank:new THREE.MeshStandardMaterial({map:stripeTex,roughness:.6}), wood:M(0x1a1a1a,.8),
       sign:new THREE.MeshStandardMaterial({map:signTex,roughness:.6}), post:M(0x161616,.5,.5),
@@ -1151,16 +1160,16 @@ body.stage-open{overflow:hidden;overscroll-behavior:none}
 
     // boosters
     const BOOSTS={
-      speed:{name:'Рывок',draw:x=>{x.beginPath();x.moveTo(74,16);x.lineTo(38,70);x.lineTo(62,70);x.lineTo(52,114);x.lineTo(92,52);x.lineTo(68,52);x.lineTo(82,16);x.closePath();x.fill()}},
+      speed:{name:'Ривок',draw:x=>{x.beginPath();x.moveTo(74,16);x.lineTo(38,70);x.lineTo(62,70);x.lineTo(52,114);x.lineTo(92,52);x.lineTo(68,52);x.lineTo(82,16);x.closePath();x.fill()}},
       shield:{name:'Бронежилет',draw:x=>{x.beginPath();x.moveTo(64,20);x.lineTo(98,33);x.quadraticCurveTo(98,86,64,110);x.quadraticCurveTo(30,86,30,33);x.closePath();x.fill()}},
-      magnet:{name:'Магнит',draw:x=>{x.lineWidth=17;x.beginPath();x.moveTo(38,30);x.lineTo(38,62);x.arc(64,62,26,Math.PI,0,true);x.lineTo(90,30);x.stroke();
+      magnet:{name:'Магніт',draw:x=>{x.lineWidth=17;x.beginPath();x.moveTo(38,30);x.lineTo(38,62);x.arc(64,62,26,Math.PI,0,true);x.lineTo(90,30);x.stroke();
         x.fillStyle='#d9c9a3';x.fillRect(29.5,20,17,14);x.fillRect(81.5,20,17,14)}},
       double:{name:'Гонорар ×2',draw:x=>{x.font='bold 60px Oswald, Impact, sans-serif';x.textAlign='center';x.textBaseline='middle';x.fillText('×2',64,68)}},
-      jet:{name:'Ракетный ранец',draw:x=>{x.fillRect(40,24,20,54);x.fillRect(68,24,20,54);x.beginPath();x.arc(50,26,10,Math.PI,0);x.arc(78,26,10,Math.PI,0);x.fill();
+      jet:{name:'Реактивний ранець',draw:x=>{x.fillRect(40,24,20,54);x.fillRect(68,24,20,54);x.beginPath();x.arc(50,26,10,Math.PI,0);x.arc(78,26,10,Math.PI,0);x.fill();
         x.fillStyle='#d9c9a3';for(const cx of [50,78]){x.beginPath();x.moveTo(cx-9,82);x.lineTo(cx+9,82);x.lineTo(cx,110);x.closePath();x.fill()}}},
-      spring:{name:'Пружины',draw:x=>{x.lineWidth=9;x.lineCap='round';x.lineJoin='round';x.beginPath();x.moveTo(40,100);
+      spring:{name:'Пружини',draw:x=>{x.lineWidth=9;x.lineCap='round';x.lineJoin='round';x.beginPath();x.moveTo(40,100);
         for(let i=0;i<6;i++)x.lineTo(i%2?40:88,90-i*12);x.lineTo(64,24);x.stroke()}},
-      watch:{name:'Часы',draw:x=>{x.lineWidth=8;x.beginPath();x.arc(64,70,32,0,7);x.stroke();x.fillRect(58,26,12,10);
+      watch:{name:'Годинник',draw:x=>{x.lineWidth=8;x.beginPath();x.arc(64,70,32,0,7);x.stroke();x.fillRect(58,26,12,10);
         x.lineWidth=6;x.lineCap='round';x.beginPath();x.moveTo(64,70);x.lineTo(64,50);x.moveTo(64,70);x.lineTo(80,78);x.stroke()}},
       heart:{name:'Аптечка',draw:x=>{x.fillRect(32,40,64,52);x.fillStyle='#0f0f10';x.fillRect(58,50,12,32);x.fillRect(48,60,32,12);
         x.fillStyle='#e9e7e1';x.fillRect(52,30,24,10)}}
@@ -1193,7 +1202,7 @@ body.stage-open{overflow:hidden;overscroll-behavior:none}
 
     function makeGate(n){
       const tex=canvasTex(512,96,(x,w,h)=>{x.fillStyle='#0f0f10';x.fillRect(0,0,w,h);x.strokeStyle='#d9c9a3';x.lineWidth=6;x.strokeRect(6,6,w-12,h-12);
-        x.fillStyle='#e9e7e1';x.textAlign='center';x.textBaseline='middle';x.font='bold 54px Oswald, Impact, sans-serif';x.fillText(n>MAXLV?'ФИНАЛ':'УРОВЕНЬ '+n,w/2,h/2+3)});
+        x.fillStyle='#e9e7e1';x.textAlign='center';x.textBaseline='middle';x.font='bold 54px Oswald, Impact, sans-serif';x.fillText(n>MAXLV?'ФІНАЛ':'РІВЕНЬ '+n,w/2,h/2+3)});
       const g=new THREE.Group(), bm=new THREE.MeshStandardMaterial({map:tex,emissiveMap:tex,emissive:0xffffff,emissiveIntensity:.5});
       add(g,new THREE.BoxGeometry(5.4,1,.12),bm,0,3.75,0);
       for(const s of [-1,1])add(g,Cyl(.09,.11,4.3,10),A.post,s*2.75,2.15,0);
@@ -1255,7 +1264,7 @@ body.stage-open{overflow:hidden;overscroll-behavior:none}
     function flash(c){const f=$('flash');f.style.background=c||'#000';f.style.transition='none';f.style.opacity=.5;requestAnimationFrame(()=>{f.style.transition='';f.style.opacity=0})}
     const HEART='<path d="M12 20.5s-7.5-4.9-7.5-10.4A4.2 4.2 0 0 1 12 7.5a4.2 4.2 0 0 1 7.5 2.6c0 5.5-7.5 10.4-7.5 10.4z"/>';
     function renderLives(){let h='';for(let i=0;i<MAXL;i++)h+='<svg viewBox="0 0 24 24" class="'+(i<run.lives?'':'off')+'" aria-hidden="true">'+HEART+'</svg>';
-      $('hLives').innerHTML=h;$('hLives').setAttribute('aria-label',run.lives+' из '+MAXL)}
+      $('hLives').innerHTML=h;$('hLives').setAttribute('aria-label',run.lives+' з '+MAXL)}
 
     function startRun(){
       mode='run'; stageEl.classList.add('running');
@@ -1272,7 +1281,7 @@ body.stage-open{overflow:hidden;overscroll-behavior:none}
       $('blindsBtn').hidden=true; $('charBtn').hidden=true; $('abilMenuBtn').hidden=true; $('arsenal').hidden=true; $('hBest').textContent=best;
       endAbility(); renderLives(); $('abName').textContent=abil().name; $('abilBtn').hidden=false; run.paused=false; run.recSaid=false;
       applyColors(); resize(); canvas.focus(); SND.start(); SND.mode('run',THEMES[0].precip); SND.level(1);
-      const go=()=>{banner('Уровень 1','пробел — '+abil().name.toLowerCase());say('start',true)};
+      const go=()=>{banner('Рівень 1','пробіл — '+abil().name.toLowerCase());say('start',true)};
       go();
     }
     function stopRun(){
@@ -1298,8 +1307,8 @@ body.stage-open{overflow:hidden;overscroll-behavior:none}
     function pauseRun(){
       if(mode!=='run'||run.over||!$('pause').hidden)return;
       clearTimeout(cdTimer); run.paused=true; pressing=false;
-      $('pLevel').textContent=run.level+' из '+MAXLV; $('pLives').textContent=run.lives; $('pHats').textContent=run.hats; $('pScore').textContent=Math.floor(run.score);
-      $('pause').hidden=false; $('banner').hidden=true; $('startBtn').textContent='Продолжить'; SND.suspend(); $('resumeBtn').focus();
+      $('pLevel').textContent=run.level+' з '+MAXLV; $('pLives').textContent=run.lives; $('pHats').textContent=run.hats; $('pScore').textContent=Math.floor(run.score);
+      $('pause').hidden=false; $('banner').hidden=true; $('startBtn').textContent='Продовжити'; SND.suspend(); $('resumeBtn').focus();
     }
     function resumeRun(){
       if(mode!=='run'||$('pause').hidden)return;
@@ -1307,7 +1316,7 @@ body.stage-open{overflow:hidden;overscroll-behavior:none}
       let n=3; const tick=()=>{
         if(mode!=='run'||!$('pause').hidden)return;
         if(n>0){banner(String(n));sfx('tick');n--;cdTimer=setTimeout(tick,550)}
-        else{banner('Беги!');run.paused=false;clock.getDelta()}};
+        else{banner('Біжи!');run.paused=false;clock.getDelta()}};
       tick();
     }
     $('startBtn').onclick=()=>{if(mode!=='run')startRun();else if(run.over)stopRun();else if(!$('pause').hidden)resumeRun();else pauseRun()};
@@ -1323,11 +1332,11 @@ body.stage-open{overflow:hidden;overscroll-behavior:none}
     function hurt(o){
       if(run.invulT>0)return;
       if(run.boosts.speed>0||(run.abilT>0&&abil().key==='ram')){smash(o);run.score+=10*mult();return}
-      if(run.boosts.shield>0){run.boosts.shield=0;smash(o);sfx('shield');run.invulT=.8;banner('Бронежилет','выдержал удар');return}
+      if(run.boosts.shield>0){run.boosts.shield=0;smash(o);sfx('shield');run.invulT=.8;banner('Бронежилет','витримав удар');return}
       run.lives--; run.levelHit=true; renderLives(); flash(); shake=.3; sfx('hit');
       if(run.lives<=0){gameOver();return}
       smash(o); run.invulT=2; run.slowT=1.2;
-      banner('−1 жизнь',run.lives+' осталось'); say(run.lives===1?'last':'hit',run.lives===1);
+      banner('−1 життя','залишилось '+run.lives); say(run.lives===1?'last':'hit',run.lives===1);
     }
     function win(){
       run.won=true; flash('#fff'); fx(ringGeo,0xd9c9a3,a.set(run.x,1.2,run.z-1),false,.2,3,.8,.9);
@@ -1347,25 +1356,25 @@ body.stage-open{overflow:hidden;overscroll-behavior:none}
     }
     function report(won){
       endAbility(); run.over=true; run.overT=0; shieldMesh.visible=false; $('startBtn').textContent='На сцену';
-      $('overTitle').textContent=won?'Дело раскрыто':'Погоня окончена';
+      $('overTitle').textContent=won?'Справу розкрито':'Погоню завершено';
       const {score,isNew,gain}=bankRun();
       $('oScore').textContent=score; $('oLevel').textContent=run.level; $('oHats').textContent=run.hats; $('oDist').textContent=Math.floor(run.dist); $('oBest').textContent=best;
       $('newRec').hidden=!isNew; $('hBest').textContent=best;
-      $('oWallet').textContent='+'+gain+' · всего '+save.wallet; updQuestBadge();
-      $('oUnlock').hidden=!run.unlocks.length; $('oUnlock').textContent='Открыто: '+run.unlocks.join(', ')+'. Выбери в арсенале.';
+      $('oWallet').textContent='+'+gain+' · усього '+save.wallet; updQuestBadge();
+      $('oUnlock').hidden=!run.unlocks.length; $('oUnlock').textContent='Відкрито: '+run.unlocks.join(', ')+'. Обери в арсеналі.';
       const showOver=()=>{if(mode==='run'&&run.over){$('over').hidden=false;$('againBtn').focus()}};
       if(won)setTimeout(()=>{if(mode!=='run')return;say('win',true);showOver()},1200); else setTimeout(showOver,800);
     }
     // character abilities
     const ABILS={
-      grapple:{key:'grapple',name:'Трос',cd:20,dur:1.6,unlock:0,desc:'перелёт над улицей на тросе'},
-      raid:{key:'raid',name:'Облава',cd:30,dur:.6,unlock:0,desc:'сносит препятствия на 45 м вперёд'},
-      phase:{key:'phase',name:'Тень',cd:24,dur:3.5,unlock:0,desc:'сквозь препятствия, время замедлено'},
-      flash:{key:'flash',name:'Вспышка',cd:28,dur:.5,unlock:3,desc:'магниевая вспышка: препятствия впереди становятся шляпами'},
-      smoke:{key:'smoke',name:'Дым',cd:26,dur:5,unlock:6,desc:'дымовая шашка: 5 секунд время идёт вдвое медленнее'},
-      glide:{key:'glide',name:'Планер',cd:24,dur:2.6,unlock:9,desc:'плащ как крылья: полёт над улицей, полосы менять можно'},
-      instinct:{key:'instinct',name:'Чутьё',cd:32,dur:8,unlock:12,desc:'магнит и двойной гонорар на 8 секунд'},
-      ram:{key:'ram',name:'Таран',cd:26,dur:2.4,unlock:15,desc:'рывок напролом: сносит всё на пути'}
+      grapple:{key:'grapple',name:'Трос',cd:20,dur:1.6,unlock:0,desc:'переліт над вулицею на тросі'},
+      raid:{key:'raid',name:'Облава',cd:30,dur:.6,unlock:0,desc:'зносить перешкоди на 45 м уперед'},
+      phase:{key:'phase',name:'Тінь',cd:24,dur:3.5,unlock:0,desc:'крізь перешкоди, час уповільнено'},
+      flash:{key:'flash',name:'Спалах',cd:28,dur:.5,unlock:3,desc:'магнієвий спалах: перешкоди попереду стають капелюхами'},
+      smoke:{key:'smoke',name:'Дим',cd:26,dur:5,unlock:6,desc:'димова шашка: 5 секунд час іде вдвічі повільніше'},
+      glide:{key:'glide',name:'Планер',cd:24,dur:2.6,unlock:9,desc:'плащ як крила: політ над вулицею, смуги міняти можна'},
+      instinct:{key:'instinct',name:'Чуття',cd:32,dur:8,unlock:12,desc:'магніт і подвійний гонорар на 8 секунд'},
+      ram:{key:'ram',name:'Таран',cd:26,dur:2.4,unlock:15,desc:'ривок напролом: зносить усе на шляху'}
     };
     // progress and choice are kept per hero
     const maxDone=PALETTES.map(()=>0), sels=PALETTES.map(()=>'sig');
@@ -1373,16 +1382,16 @@ body.stage-open{overflow:hidden;overscroll-behavior:none}
     const unlocked=(k,i=charIdx)=>ABILS[k].unlock===0?PALETTES[i].sig===k:ABILS[k].unlock<=maxDone[i];
     const curSel=()=>{const k=sels[charIdx];return k!=='sig'&&ABILS[k]&&unlocked(k)?k:'sig'};
     const abil=()=>ABILS[curSel()==='sig'?PALETTES[charIdx].sig:curSel()];
-    function updAbilLabel(){$('abilMenuBtn').textContent='Способность: '+abil().name}
+    function updAbilLabel(){$('abilMenuBtn').textContent='Здібність: '+abil().name}
     function renderArsenal(){
       const P_=PALETTES[charIdx], sk=P_.sig, cur=curSel();
-      $('arsTitle').textContent='Способности: '+P_.name;
+      $('arsTitle').textContent='Здібності: '+P_.name;
       const item=(k,name,desc,cd,ok,lockTxt)=>'<button type="button" class="ars-item" data-k="'+k+'" aria-pressed="'+(cur===k)+'"'+(ok?'':' disabled')+'><b>'+name+
-        '</b><span class="cd">'+(ok?'перезарядка '+cd+' с':lockTxt)+'</span><span class="d">'+desc+'</span></button>';
-      let h=item('sig','Своя: '+ABILS[sk].name,'подпись героя — '+ABILS[sk].desc,ABILS[sk].cd,true,'');
+        '</b><span class="cd">'+(ok?'перезаряджання '+cd+' с':lockTxt)+'</span><span class="d">'+desc+'</span></button>';
+      let h=item('sig','Своя: '+ABILS[sk].name,'підпис героя — '+ABILS[sk].desc,ABILS[sk].cd,true,'');
       for(const k in ABILS){const A_=ABILS[k]; if(A_.unlock===0)continue;
-        h+=item(k,A_.name,A_.desc,A_.cd,unlocked(k),'пройди '+A_.unlock+' ур. за героя «'+P_.name+'»')}
-      h+='<p class="ars-note" style="margin:6px 0 0">Пройдено за героя «'+P_.name+'»: '+maxDone[charIdx]+' из '+MAXLV+'</p>';
+        h+=item(k,A_.name,A_.desc,A_.cd,unlocked(k),'пройди '+A_.unlock+' рів. за героя «'+P_.name+'»')}
+      h+='<p class="ars-note" style="margin:6px 0 0">Пройдено за героя «'+P_.name+'»: '+maxDone[charIdx]+' з '+MAXLV+'</p>';
       $('arsList').innerHTML=h;
     }
     $('arsList').addEventListener('click',e=>{const bt=e.target.closest('.ars-item');if(!bt||bt.disabled)return;
@@ -1398,20 +1407,20 @@ body.stage-open{overflow:hidden;overscroll-behavior:none}
     function useAbility(){
       if(mode!=='run'||run.over||run.paused||run.abilCD>0||run.abilT>0)return;
       const ab=abil();
-      if(run.boosts.jet>0&&(ab.key==='grapple'||ab.key==='glide')){banner(ab.name,'не во время ракетного ранца');return}
+      if(run.boosts.jet>0&&(ab.key==='grapple'||ab.key==='glide')){banner(ab.name,'не під час реактивного ранця');return}
       run.abilCD=abCD(ab); run.abilT=ab.dur; questEv('abil',1); sfx(ab.key); say(ab.key,true);
       if(ab.key==='grapple'){run.slideT=0;run.vy=0;run.grapY0=run.y;banner(ab.name,ab.desc)}
       else if(ab.key==='raid'){let n=0;
         for(const o of run.obs)if(!o.dead&&o.z<run.z+2&&o.z>run.z-45){smash(o);n++}
         run.score+=10*n*mult(); fx(ringGeo,0xd9c9a3,a.set(run.x,0,run.z),true,.5,9,.7,.8); flash('#fff'); shake=Math.max(shake,.15);
-        banner('Облава!',n?'убрано препятствий: '+n:'улица и так чиста')}
+        banner('Облава!',n?'прибрано перешкод: '+n:'вулиця й так чиста')}
       else if(ab.key==='phase'){setGhost(true);banner(ab.name,ab.desc)}
       else if(ab.key==='flash'){let n=0;
         for(const o of run.obs)if(!o.dead&&o.z<run.z+2&&o.z>run.z-35){smash(o);addHat(o.x,o.z,.95);n++}
-        flash('#fff'); shake=Math.max(shake,.1); banner('Вспышка!',n?'шляп вместо препятствий: '+n:'впереди пусто')}
-      else if(ab.key==='smoke'){stageEl.classList.add('smoke');banner(ab.name,'время замедлено')}
+        flash('#fff'); shake=Math.max(shake,.1); banner('Спалах!',n?'капелюхів замість перешкод: '+n:'попереду порожньо')}
+      else if(ab.key==='smoke'){stageEl.classList.add('smoke');banner(ab.name,'час уповільнено')}
       else if(ab.key==='glide'){run.slideT=0;run.vy=0;run.grapY0=run.y;banner(ab.name,ab.desc)}
-      else if(ab.key==='instinct'){run.boosts.magnet=Math.max(run.boosts.magnet,8);run.boosts.double=Math.max(run.boosts.double,8);banner(ab.name,'магнит и ×2')}
+      else if(ab.key==='instinct'){run.boosts.magnet=Math.max(run.boosts.magnet,8);run.boosts.double=Math.max(run.boosts.double,8);banner(ab.name,'магніт і ×2')}
       else if(ab.key==='ram'){shake=Math.max(shake,.15);banner(ab.name,'напролом')}
     }
     $('abilBtn').onclick=useAbility;
@@ -1437,9 +1446,9 @@ body.stage-open{overflow:hidden;overscroll-behavior:none}
       if(newDistrict){switchTheme(th);flash()}
       sfx('level'); SND.level(run.level);
       const after=()=>{
-        banner('Уровень '+run.level,(newDistrict?'новый район: ':'')+THEMES[curTheme].name+(gained?' · +1 жизнь':'')+' · +'+bonus);
+        banner('Рівень '+run.level,(newDistrict?'новий район: ':'')+THEMES[curTheme].name+(gained?' · +1 життя':'')+' · +'+bonus);
         if(!newDistrict)say('level');
-        if(nw)setTimeout(()=>{if(mode==='run'&&!run.over){sfx('unlock');banner('Новая способность',nw.name+' · только для героя «'+PALETTES[charIdx].name+'»')}},1700)};
+        if(nw)setTimeout(()=>{if(mode==='run'&&!run.over){sfx('unlock');banner('Нова здібність',nw.name+' · лише для героя «'+PALETTES[charIdx].name+'»')}},1700)};
       after();
       fx(ringGeo,0xd9c9a3,a.set(run.x,1.2,run.z-1),false,.2,2.2,.6,.8);
     }
@@ -1465,7 +1474,7 @@ body.stage-open{overflow:hidden;overscroll-behavior:none}
       const onBtn=document.activeElement&&document.activeElement.tagName==='BUTTON';
       if(!$('pause').hidden){if(!onBtn&&(e.key==='Enter'||e.key===' ')){e.preventDefault();resumeRun()}return}
       const k=e.key, map={ArrowLeft:'left',a:'left',A:'left','ф':'left',ArrowRight:'right',d:'right',D:'right','в':'right',
-        ArrowUp:'jump',w:'jump',W:'jump',' ':'ability','ц':'jump',ArrowDown:'slide',s:'slide',S:'slide','ы':'slide'};
+        ArrowUp:'jump',w:'jump',W:'jump',' ':'ability','ц':'jump',ArrowDown:'slide',s:'slide',S:'slide','ы':'slide','і':'slide','І':'slide'};
       if(map[k]){e.preventDefault();if(!e.repeat)act(map[k])}
       else if(k==='Enter'&&run.over&&!$('over').hidden&&!onBtn){e.preventDefault();startRun()}
     });
@@ -1502,7 +1511,7 @@ body.stage-open{overflow:hidden;overscroll-behavior:none}
       }
       cable.material.color.setHex(dark?0xb9b8b3:0x1a1a1a); inkHex=dark?0xe2e0da:0x151515;
       ch.mat.eye.emissiveIntensity=dark?1.1:.55;
-      const btn=$('bgBtn'); btn.textContent=dark?'Фон: тёмный':'Фон: светлый'; btn.setAttribute('aria-pressed',dark);
+      const btn=$('bgBtn'); btn.textContent=dark?'Фон: темний':'Фон: світлий'; btn.setAttribute('aria-pressed',dark);
     }
     $('bgBtn').onclick=()=>{dark=!dark;applyColors()};
     $('blindsBtn').onclick=function(){blinds.visible=!blinds.visible;this.setAttribute('aria-pressed',blinds.visible)};
@@ -1677,7 +1686,7 @@ body.stage-open{overflow:hidden;overscroll-behavior:none}
           if(Math.abs(it.x-run.x)<.7&&it.z-.8<z0&&it.z+.8>run.z&&Math.abs(it.y-(run.y+(sliding?.5:1)))<1.15){
             if(it.kind==='hat'){run.hats++;run.score+=25*mult();questEv('hatsRun',run.hats);questEv('hatsDay',1);sfx('hat');if(run.hats%30===0)say('hats');fx(ringGeo,0xd9c9a3,it.mesh.position,false,.1,.6,.3,.9)}
             else {sfx('boost');if(Math.random()<.5)say('boost');questEv('boost',1);
-              if(it.type==='heart'){sfx('heal');if(run.lives<MAXL){run.lives++;renderLives();banner('Аптечка','+1 жизнь')}else{run.score+=150*mult();banner('Аптечка','+150 очков')}}
+              if(it.type==='heart'){sfx('heal');if(run.lives<MAXL){run.lives++;renderLives();banner('Аптечка','+1 життя')}else{run.score+=150*mult();banner('Аптечка','+150 очок')}}
               else{B[it.type]=boostDur(it.type);banner(BOOSTS[it.type].name,'на '+Math.round(boostDur(it.type))+' с');
                 if(it.type==='jet'){run.jetZ=run.z-8;run.jetLane=run.lane;sfx('jet');if(grap||glide)endAbility()}}fx(ringGeo,0xd9c9a3,it.mesh.position,false,.2,1.6,.45,.9)}
             runG.remove(it.mesh);run.items.splice(i,1)}
@@ -1755,11 +1764,11 @@ body.stage-open{overflow:hidden;overscroll-behavior:none}
       // HUD
       $('hHats').textContent=run.hats; const sc=Math.floor(run.score); $('hScore').textContent=sc;
       if(sc>best&&!run.over){$('hBest').textContent=sc;if(best>0&&!run.recSaid){run.recSaid=true;say('record',true)}}
-      const lt='Уровень '+run.level+'/'+MAXLV+' · '+THEMES[curTheme].name; if($('hLevel').textContent!==lt)$('hLevel').textContent=lt;
+      const lt='Рівень '+run.level+'/'+MAXLV+' · '+THEMES[curTheme].name; if($('hLevel').textContent!==lt)$('hLevel').textContent=lt;
       $('hLvBar').style.width=clamp(1-(run.z-run.levelEndZ)/run.lv.len,0,1)*100+'%';
       const ab=$('abilBtn'), pv=abOn?run.abilT/AB.dur:1-run.abilCD/abCD(AB);
       ab.style.setProperty('--p',clamp(pv,0,1)); ab.classList.toggle('active',abOn); ab.classList.toggle('ready',!abOn&&run.abilCD<=0&&!run.over);
-      const kt=abOn?'действует':run.abilCD>0?Math.ceil(run.abilCD)+' с':'пробел'; if($('abKey').textContent!==kt)$('abKey').textContent=kt;
+      const kt=abOn?'діє':run.abilCD>0?Math.ceil(run.abilCD)+' с':'пробіл'; if($('abKey').textContent!==kt)$('abKey').textContent=kt;
       for(const k in BOOSTS){const e=chipEls[k], on=B[k]>0&&!run.over; if(e.c.hidden===on)e.c.hidden=!on; if(on)e.bar.style.width=B[k]/boostDur(k)*100+'%'}
     }
     function frame(){
