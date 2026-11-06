@@ -1,0 +1,17 @@
+{
+  "name": "Тінь над містом",
+  "short_name": "Тінь",
+  "description": "Нуарний 3D-ранер: детектив у плащі й капелюсі біжить нічним містом.",
+  "lang": "uk",
+  "start_url": "./?source=app",
+  "scope": "./",
+  "display": "fullscreen",
+  "display_override": ["fullscreen", "standalone"],
+  "background_color": "#121315",
+  "theme_color": "#121315",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
