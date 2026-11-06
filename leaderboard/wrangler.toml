@@ -1,0 +1,13 @@
+name = "noir-rush-leaderboard"
+main = "worker.js"
+compatibility_date = "2025-01-01"
+
+[vars]
+# Origin of the game on GitHub Pages, e.g. "https://pavel-kirsanov.github.io".
+# Comma-separated; "*" accepts any origin.
+ALLOWED_ORIGIN = "https://pavel-kirsanov.github.io,http://localhost:8000"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "noir-rush-leaderboard"
+database_id = "7432047f-add7-422c-b75e-d27afeb58ef4"
